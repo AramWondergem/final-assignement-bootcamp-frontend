@@ -1,0 +1,12 @@
+.logo{
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.logo-big .logo-imagewrapper {
+    flex: 0 1 150px;
+    margin: 0 var(--padding-large);
+}
