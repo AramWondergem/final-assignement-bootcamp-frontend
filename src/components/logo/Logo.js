@@ -5,6 +5,8 @@ import cookmen from "../../assets/cookmen.png";
 
 function Logo({className, children, size}) {
     return (
+
+
         <div className={`${className} flex-row logo-${size} logo`}>
             <div className="logo-imagewrapper">
             <img src={cookwoman} alt="emoticon of a female cook"/>

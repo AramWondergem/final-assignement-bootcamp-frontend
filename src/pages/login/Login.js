@@ -4,46 +4,98 @@ import Logo from "../../components/logo/Logo";
 import Button from "../../components/button/Button";
 import JSConfetti from 'js-confetti'
 import {AuthContext} from "../../context/AuthContext";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 function Login({setExploding}) {
-    const {login, catchError, isLoading} = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [catchError, setCatchError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const dataUrlPost = '/auth'
+    const navigate = useNavigate();
 
     const jsConfetti = new JSConfetti()
 
-    function onClickConfetti(){
+    function onClickConfetti() {
         jsConfetti.addConfetti({
-            emojis: ['🍆','🌽','🧄','🥦','🥔','🥒','🍅'],
+            emojis: ['🍆', '🌽', '🧄', '🥦', '🥔', '🥒', '🍅'],
             emojiSize: 50,
             confettiNumber: 100,
             confettiRadius: 30,
         });
     }
 
-    function onSubmit(event) {
-            event.preventDefault();
-            console.log(event)
-        login({username, password})
-            console.log("gebruiker is ingelogd")
+    async function onSubmitToLogin(event) {
+        event.preventDefault();
+        setIsLoading(true);
+        setCatchError(null);
+
+        try {
+            const response = await axios.post(dataUrlPost, {
+                username: email,
+                password: password
+            });
+
+            const {username, name} = response.data;
+
+            const token = response.headers.get('Authorization');
+            login(token, username, name)
+
+            console.log("user logged in")
+        } catch (error) {
+            setCatchError(error);
+            console.log(error)
+
+        } finally {
+            setIsLoading(false)
+
+        }
+    }
+
+
+    function printMessage() {
+        if (catchError.hasOwnProperty("response")) {
+            switch (catchError.response.status) {
+                case 401:
+                    return "Oeps the elves at the backend do not recognize the username and/or password"
+                case 500:
+                    return "Oeps something is wrong with the server, contact the elves to signal the problem"
+                default:
+                    return "Oeps somehting is wrong. This happens for the first time. Contact the elves."
+            }
+
+        } else {
+            return "Oeps something went wrong. Contact the elves and aks for help"
+        }
     }
 
     return (
         <main className="outerbox login">
             <div className="innerbox login--innerbox flex-collumn">
                 <div className="login--contentwrapper flex-collumn">
-                    <Logo className="login--logo" size="big">
-                        <h1>Wonder Gems</h1>
-                    </Logo>
-                    {catchError !== null && catchError.response.status === 401 && <p>401 error</p>}
-                    {catchError !== null && catchError.response.status === 500 && <p>500 error</p>}
+                    <div className="login--logowrapper">
+                        <div className={`bubble${catchError !== null ? "-active" : ""}`}> {
+                            catchError !== null && printMessage()
+                        }
+
+                        </div>
+
+                        <Logo className="login--logo" size="big">
+                            <h1>Wonder Gems</h1>
+                        </Logo>
+                    </div>
+                    {}
                     <div className="login--formwrapper flex-row">
-                        <form className="login--form flex-collumn" onSubmit={onSubmit}>
+                        <form className="login--form flex-collumn" onSubmit={onSubmitToLogin}>
                             <label htmlFor="email">E-mail address</label>
-                            <input placeholder="best.cook.ever@wondergems.com" type="email" id="email" value={username} onChange={(event) => setUsername(event.target.value)}/>
+                            <input placeholder="best.cook.ever@wondergems.com" type="email" id="email" value={email}
+                                   onChange={(event) => setEmail(event.target.value)}/>
                             <label htmlFor="password">password</label>
-                            <input placeholder="•••••••••••••••" type="password" id="password" title="password" value={password}
+                            <input placeholder="•••••••••••••••" type="password" id="password" title="password"
+                                   value={password}
                                    onChange={(event) => setPassword(event.target.value)}/>
                             <Button type="submit">Sign in</Button>
                         </form>
