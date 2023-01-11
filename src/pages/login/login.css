@@ -14,6 +14,40 @@
     align-items: stretch;
 
 }
+.bubble {
+
+    flex: 0 0 102px;
+    position: relative;
+    font-family: sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 400px;
+
+    border-radius: 40px;
+    padding: 24px;
+    text-align: center;
+    color: transparent;
+}
+
+
+.bubble-active {
+    flex: 0 0 102px;
+    position: relative;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 400px;
+    background: var(--color-white);
+    border-radius: 40px;
+    /*kept a padding not based on global variable, because the message bubble will move if it is not 24px*/
+    padding: 24px;
+    text-align: center;
+    color: var(--color-dark);
+    border: 3px solid var(--color-dark);
+    box-shadow: 12px 10px 0 var(--color-dark);
+
+
+}
 
 .login--formwrapper {
     justify-content: center;
@@ -54,77 +88,8 @@
     gap: 20px
 }
 
-.bubble {
-
-    flex: 0 0 102px;
-    position: relative;
-    font-family: sans-serif;
-    font-size: 18px;
-    line-height: 24px;
-    max-width: 400px;
-
-    border-radius: 40px;
-    padding: 24px;
-    text-align: center;
-    color: transparent;
 
 
-
-}
-
-
-
-.bubble-active {
-    flex: 0 0 102px;
-    position: relative;
-    font-family: sans-serif;
-    font-size: 18px;
-    line-height: 24px;
-    max-width: 400px;
-    background: #fff;
-    border-radius: 40px;
-    padding: 24px;
-    text-align: center;
-    color: #000;
-
-    border: 3px solid var(--color-dark);
-    box-shadow: 12px 10px 0 var(--color-dark);
-
-
-}
-
-/*.bubble-bottom-left:before {*/
-/*    content: "";*/
-/*    width: 0px;*/
-/*    height: 0px;*/
-/*    position: absolute;*/
-/*    border-left: 24px solid #fff;*/
-/*    border-right: 12px solid transparent;*/
-/*    border-top: 12px solid #fff;*/
-/*    border-bottom: 20px solid transparent;*/
-/*    left: 32px;*/
-/*    bottom: -24px;*/
-/*z-index: 2;*/
-/*    box-shadow:*/
-/*    -3px 0 0 var(--color-dark);*/
-
-/*}*/
-
-/*.bubble-bottom-left:after {*/
-/*    content: "";*/
-/*    width: 0px;*/
-/*    height: 0px;*/
-/*    position: absolute;*/
-/*    border-left: 24px solid var(--color-dark);*/
-/*    border-right: 12px solid transparent;*/
-/*    border-top: 12px solid var(--color-dark);*/
-/*    border-bottom: 20px solid transparent;*/
-/*    left: 32px;*/
-/*    bottom: -36px;*/
-/*    z-index: 1;*/
-
-
-/*}*/
 
 .login .animate {
     animation: slide-in-out 2s both;
