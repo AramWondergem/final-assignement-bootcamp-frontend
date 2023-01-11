@@ -126,5 +126,30 @@
 
 /*}*/
 
+.login .animate {
+    animation: slide-in-out 2s both;
+    animation-iteration-count: infinite;
+}
 
+@keyframes slide-in-out {
+    0% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateX(320px);
+    }
+    50% {
+        transform: translateX(320px) translateY(70px);
+    }
+    80% {
+        transform: translateX(-140px) translateY(70px);
+    }
+    90%{
+        transform: translateX(-140px) ;
+    }
+    100% {
+
+    }
+
+}
 

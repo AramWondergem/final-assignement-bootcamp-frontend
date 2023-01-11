@@ -12,8 +12,6 @@ function AuthContextProvider({children}) {
         status: 'pending',
         isAuth: false,
     });
-    const [catchError, setCatchError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
     const dataUrlGet = '/users'
 
     const navigate = useNavigate();
@@ -23,18 +21,14 @@ function AuthContextProvider({children}) {
 
     useEffect(() => {
         if (localStorage.getItem('token') && validateTokenDate(localStorage.getItem('token'))) {
+            console.log("there is a valid token in local storage")
             // I could not make use of useFetch inside a callback function, so that is why I do not call useFetch
 
             // Fetch data function declaration
             const fetchData = async (url) => {
-                setIsLoading(true);
-                setCatchError(null);
                 try {
                     // Fetch the response
-                    const response = await axios.get(url)
-                        // Catch cancellation error (couldn't be fetched in the catch block)
-                        .catch(e => e.code === "ERR_CANCELED" && console.log("Fetch Request Cancelled"));
-
+                    const response = await axios.get(url) //global axios defaults are in index.js
 
                     setAuthState({
                         user: {
@@ -49,9 +43,8 @@ function AuthContextProvider({children}) {
 
                 } catch (error) {
                     // Catch the error
-                    setCatchError(error);
                     console.log(error);
-                    console.log("Something went wrong at the backend. This can be due to incorrect password. Login again. There is not more information shared due to security reasons")
+                    console.log("Something went wrong at the backend when fetching userdata. This can be due to a invalid token. Login again. There is not more information shared due to security reasons")
                     setAuthState({ // if error occurs it wil go back to inlog screen
                         user: null,
                         status: 'done',
@@ -59,11 +52,6 @@ function AuthContextProvider({children}) {
                     });
                     navigate('/login')
                     localStorage.clear();
-
-
-                } finally {
-                    // Set loading to initial state
-                    setIsLoading(false);
 
                 }
             }

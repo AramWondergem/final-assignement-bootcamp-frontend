@@ -6,7 +6,7 @@ function validateTokenDate(token) {
     const currentDate = Date.now();
     const { exp } = decoded;
 
-    console.log("tokenvalidate" + (currentDate < exp*1000))
+    console.log("tokenvalidate is: " + (currentDate < exp*1000))
 
 
     return currentDate < exp*1000; // currentDate is in millisecond and exp is in seconds, that is why exp is multiplied by 1000

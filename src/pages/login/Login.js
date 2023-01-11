@@ -8,7 +8,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 
-function Login({setExploding}) {
+function Login() {
     const {login} = useContext(AuthContext);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -90,17 +90,17 @@ function Login({setExploding}) {
                     {}
                     <div className="login--formwrapper flex-row">
                         <form className="login--form flex-collumn" onSubmit={onSubmitToLogin}>
-                            <label htmlFor="email">E-mail address</label>
+                            <label className={`${isLoading && "animate"}`} htmlFor="email">E-mail address</label>
                             <input placeholder="best.cook.ever@wondergems.com" type="email" id="email" value={email}
                                    onChange={(event) => setEmail(event.target.value)}/>
-                            <label htmlFor="password">password</label>
+                            <label className={`${isLoading && "animate"}`} htmlFor="password">password</label>
                             <input placeholder="•••••••••••••••" type="password" id="password" title="password"
                                    value={password}
                                    onChange={(event) => setPassword(event.target.value)}/>
-                            <Button type="submit">Sign in</Button>
+                            <Button disabled={isLoading} type="submit" >{isLoading ? "Loading" : "Sign in"}</Button>
                         </form>
                     </div>
-                    <Button onClick={onClickConfetti} className="confetti-button">Do not click here</Button>
+                    <Button  onClick={onClickConfetti} className="confetti-button">Do not click here</Button>
 
                 </div>
             </div>
