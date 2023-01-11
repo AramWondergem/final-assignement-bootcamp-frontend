@@ -58,19 +58,6 @@
 
 }
 
-.login--form label {
-    font-weight: var(--font-weight-700);
-    padding-left: var(--padding-medium);
-}
-
-.login--form input {
-    border: 3px solid var(--color-dark);
-    box-shadow: 12px 10px 0 var(--color-dark);
-    border-radius: 45px;
-    margin-bottom: var(--padding-large);
-    padding: var(--padding-extra-smal) var(--padding-medium)
-}
-
 
 .login--form Button{
     margin-top: var(--padding-large);
@@ -94,6 +81,7 @@
 .login .animate {
     animation: slide-in-out 2s both;
     animation-iteration-count: infinite;
+    animation-delay: 1s;
 }
 
 @keyframes slide-in-out {

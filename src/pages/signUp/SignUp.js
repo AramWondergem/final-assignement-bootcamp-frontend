@@ -1,21 +1,20 @@
-import React, {useContext, useState} from 'react';
-import './login.css'
+import './signUp.css'
+
+import React, {useState} from 'react';
 import Logo from "../../components/logo/Logo";
-import Button from "../../components/button/Button";
-import JSConfetti from 'js-confetti'
-import {AuthContext} from "../../context/AuthContext";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import InputWithLabel from "../../components/inputWithLabel/InputWithLabel";
+import Button from "../../components/button/Button";
+import {useNavigate} from "react-router-dom";
+import JSConfetti from "js-confetti";
+import axios from "axios";
 
-
-function Login() {
-    const {login} = useContext(AuthContext);
+function SignUp() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [catchError, setCatchError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const dataUrlPost = '/auth'
+    const [errorField, setErrorField] = useState(null)
+    const dataUrlPost = '/users'
     const navigate = useNavigate();
 
     const jsConfetti = new JSConfetti()
@@ -28,7 +27,6 @@ function Login() {
             confettiRadius: 30,
         });
     }
-
     async function onSubmitToLogin(event) {
         event.preventDefault();
         setIsLoading(true);
@@ -37,31 +35,39 @@ function Login() {
         try {
             const response = await axios.post(dataUrlPost, {
                 username: email,
-                password: password
+                password: password,
+                roles: ['USER']
             });
 
-            const {username, name} = response.data;
+            console.log(response)
 
-            const token = response.headers.get('Authorization');
-            login(token, username, name)
 
-            console.log("user logged in")
+            console.log("user signed up")
         } catch (error) {
             setCatchError(error);
             console.log(error)
 
         } finally {
             setIsLoading(false)
-
         }
     }
-
 
     function printMessage() {
         if (catchError.hasOwnProperty("response")) {
             switch (catchError.response.status) {
-                case 401:
-                    return "Oeps the elves at the backend do not recognize the username and/or password"
+                case 400:
+                    if(catchError.response.data.message.includes("Username already used"
+                    )) {
+
+                        setErrorField("email")
+                        return "The elves whispered in my ear that this e-mail address is already used"
+                    } else if (catchError.response.data.message.includes("password"
+                    )) {
+                        setErrorField("password")
+                        console.log(catchError.response.data.message)
+                        return "The elves whispered in my ear that your password is weak. Hover over the \"i\"."
+                    }
+
                 case 500:
                     return "Oeps something is wrong with the server, contact the elves to signal the problem"
                 default:
@@ -69,10 +75,9 @@ function Login() {
             }
 
         } else {
-            return "Oeps something went wrong. Contact the elves and aks for help"
+            return "Oeps somehting is wrong. This happens for the first time. Contact the elves."
         }
     }
-
     return (
         <main className="outerbox login">
             <div className="innerbox login--innerbox flex-collumn">
@@ -98,7 +103,8 @@ function Login() {
                                 placeholder="best.cook.ever@wondergems.com"
                                 type="email"
                                 value={email}
-                                onChange={(event) => setEmail(event.target.value)}/>
+                                onChange={(event) => setEmail(event.target.value)}
+                            classNameInput={`${errorField=== "email" && "error-field"}`}/>
                             <InputWithLabel
                                 classNameLabel={`${isLoading && "animate"}`}
                                 id="password"
@@ -106,7 +112,8 @@ function Login() {
                                 placeholder="•••••••••••••••"
                                 type="password"
                                 value={password}
-                                onChange={(event) => setPassword(event.target.value)}/>
+                                onChange={(event) => setPassword(event.target.value)}
+                                classNameInput={`${errorField=== "password" && "error-field"}`}/>
 
                             <Button disabled={isLoading} type="submit">{isLoading ? "Loading" : "Sign in"}</Button>
                         </form>
@@ -119,4 +126,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;

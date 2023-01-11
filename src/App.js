@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import React, {useContext} from "react";
 import Home from "./pages/home/Home";
 import {AuthContext} from "./context/AuthContext";
+import SignUp from "./pages/signUp/SignUp";
 
 
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
             <Route exact path='/' element={ isAuth ? <Home/> : <Navigate to="/login"/>}/>
             <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
+            <Route exact path='/signup' element={<SignUp/>}/>
         </Routes>
     </>
   );

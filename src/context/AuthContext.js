@@ -67,7 +67,7 @@ function AuthContextProvider({children}) {
                 status: 'done',
                 isAuth: false
             });
-            navigate('/login')
+
             localStorage.clear();
         }
 
