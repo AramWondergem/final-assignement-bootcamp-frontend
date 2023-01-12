@@ -107,8 +107,10 @@ function Login() {
                                 type="password"
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}/>
-
-                            <Button disabled={isLoading} type="submit">{isLoading ? "Loading" : "Sign in"}</Button>
+                            <div className="login--buttonwrapper flex-row">
+                                <Button disabled={isLoading} type="submit">{isLoading ? "Loading" : "Sign in"}</Button>
+                                <Button type="button" onClick={() => navigate('/signup')}>Sign up</Button>
+                            </div>
                         </form>
                     </div>
                     <Button onClick={onClickConfetti} className="confetti-button">Do not click here</Button>

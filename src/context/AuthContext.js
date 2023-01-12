@@ -38,7 +38,7 @@ function AuthContextProvider({children}) {
                         status: 'done',
                         isAuth: true
                     });
-                    navigate('/')
+
 
 
                 } catch (error) {

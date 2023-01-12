@@ -14,39 +14,44 @@
     align-items: stretch;
 
 }
-.bubble {
+.login .bubble {
 
-    flex: 0 0 102px;
+    flex: 0 0 86px;
     position: relative;
     font-family: sans-serif;
-    font-size: 18px;
+    font-size: var(--fontsize-400);
     line-height: 24px;
     max-width: 400px;
 
     border-radius: 40px;
-    padding: 24px;
+    padding: var(--padding-medium);
     text-align: center;
     color: transparent;
 }
 
 
-.bubble-active {
-    flex: 0 0 102px;
+.login .bubble-active {
+    flex: 0 0 86px;
     position: relative;
     font-family: var(--font-body);
-    font-size: 18px;
+    font-size: var(--fontsize-400);
     line-height: 24px;
     max-width: 400px;
     background: var(--color-white);
     border-radius: 40px;
-    /*kept a padding not based on global variable, because the message bubble will move if it is not 24px*/
-    padding: 24px;
+    padding: var(--padding-medium);
     text-align: center;
     color: var(--color-dark);
     border: 3px solid var(--color-dark);
     box-shadow: 12px 10px 0 var(--color-dark);
 
 
+}
+.login--logowrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px
 }
 
 .login--formwrapper {
@@ -58,9 +63,14 @@
 
 }
 
+.login--buttonwrapper {
+    align-self: center;
+    justify-content: space-between;
+
+}
 
 .login--form Button{
-    margin-top: var(--padding-large);
+
     align-self: center;
 }
 
@@ -68,15 +78,11 @@
     align-self: end;
 }
 
-.login--logowrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px
-}
 
 
 
+
+/*----------loading animation-----------------*/
 
 .login .animate {
     animation: slide-in-out 2s both;

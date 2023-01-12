@@ -1,10 +1,10 @@
 import React from 'react';
 import './button.css'
 
-function Button({type, className, children, onClick}) {
+function Button({type, className, children, onClick, disabled}) {
     return (
 
-        <button onClick={onClick} className={`${className} button`} type={type}>{children}</button>
+        <button disabled={disabled} onClick={onClick} className={`${className} button`} type={type}>{children}</button>
 
     );
 }

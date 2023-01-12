@@ -10,6 +10,9 @@
 
 .button:hover, .button:active {
     background: var(--background-button-active);
+    transform: translateX(2px) translateY(2px);
+    box-shadow: 10px 8px 0 var(--color-dark);
+
 }
 
 .button:active {
