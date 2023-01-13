@@ -5,6 +5,8 @@
 */
 *, *::before, *::after {
     box-sizing: border-box;
+    /*border: 1px solid black;*/
+/*    todo weghalen*/
 }
 /*
   2. Remove default margin
@@ -13,6 +15,7 @@
     margin: 0;
     padding: 0;
     font: inherit;
+
 }
 /*
   3. Allow percentage-based heights in the application
@@ -76,4 +79,18 @@ a:not([class]) {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+/*
+filling page with main component if the content does not fill the whole page
+*/
+
+#root {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex-grow: 1;
 }

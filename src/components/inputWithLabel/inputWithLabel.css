@@ -1,0 +1,16 @@
+.label-component {
+    font-weight: var(--font-weight-700);
+    padding-left: var(--padding-medium);
+}
+
+.input-component {
+    border: 3px solid var(--color-dark);
+    box-shadow: 12px 10px 0 var(--color-dark);
+    border-radius: 45px;
+    margin-bottom: var(--padding-large);
+    padding: var(--padding-extra-smal) var(--padding-medium)
+}
+
+.error-field {
+    border-color: var(--color-primary);
+}

@@ -1,0 +1,25 @@
+.button {
+    background: var(--background-button);
+    padding: var(--padding-extra-smal) var(--padding-large);
+    margin: var(--padding-medium);
+    font-weight: var(--font-weight-600);
+    border: 3px solid var(--color-dark);
+    box-shadow: 12px 10px 0 var(--color-dark);
+    position: relative;
+}
+
+.button:hover, .button:active {
+    background: var(--background-button-active);
+    transform: translateX(2px) translateY(2px);
+    box-shadow: 10px 8px 0 var(--color-dark);
+
+}
+
+.button:active {
+
+    box-shadow: 0 0 0 0;
+    top: 10px;
+    left: 12px;
+
+}
+
