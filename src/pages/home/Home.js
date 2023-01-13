@@ -3,9 +3,14 @@ import './home.css'
 import{AuthContext} from "../../context/AuthContext";
 
 function Home(props) {
-    const {logout} = useContext(AuthContext)
+    const {logout, user} = useContext(AuthContext)
+
+
+
     return (
-        <div>hallo home <button onClick={logout}>log out</button></div>
+        <div>hallo home <button onClick={logout}>log out</button>
+        <p>{user && user.email}</p>
+        </div>
     );
 }
 

@@ -17,8 +17,6 @@ function AuthContextProvider({children}) {
     const navigate = useNavigate();
 
 
-
-
     useEffect(() => {
         if (localStorage.getItem('token') && validateTokenDate(localStorage.getItem('token'))) {
             console.log("there is a valid token in local storage")
@@ -33,13 +31,12 @@ function AuthContextProvider({children}) {
                     setAuthState({
                         user: {
                             email: response.data.email,
-                            name: response.data.username,
+                            username: response.data.username,
                             roles: response.data.roles
                         },
                         status: 'done',
                         isAuth: true
                     });
-
 
 
                 } catch (error) {
@@ -60,8 +57,6 @@ function AuthContextProvider({children}) {
             fetchData(dataUrlGet)
 
 
-
-
         } else {
             setAuthState({
                 user: null,
@@ -73,9 +68,6 @@ function AuthContextProvider({children}) {
         }
 
     }, [])
-
-
-
 
 
     function login(token, email, username, roles) {
@@ -91,6 +83,7 @@ function AuthContextProvider({children}) {
             status: 'done',
             isAuth: true
         });
+        console.log(authState)
         navigate('/')
         console.log(authState)
 
@@ -109,7 +102,7 @@ function AuthContextProvider({children}) {
 
     }
 
-    const data = {...authState, login, logout};
+    const data = {isAuth: authState.isAuth, user: authState.user, login, logout};
 
 
     return (

@@ -10,7 +10,7 @@ import InputWithLabel from "../../components/inputWithLabel/InputWithLabel";
 
 
 function Login() {
-    const {login} = useContext(AuthContext);
+    const {login, authState} = useContext(AuthContext);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [catchError, setCatchError] = useState(null);
@@ -41,11 +41,13 @@ function Login() {
             });
 console.log(response);
             const {username, email : mail, roles} = response.data;
+            console.log(username)
 
             const token = response.headers.get('Authorization');
             login(token, mail, username, roles)
 
             console.log("user logged in")
+            console.log(authState)
         } catch (error) {
             setCatchError(error);
             console.log(error)
