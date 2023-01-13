@@ -36,14 +36,14 @@ function Login() {
 
         try {
             const response = await axios.post(dataUrlPost, {
-                username: email,
+                email: email,
                 password: password
             });
-
-            const {username, name} = response.data;
+console.log(response);
+            const {username, email : mail, roles} = response.data;
 
             const token = response.headers.get('Authorization');
-            login(token, username, name)
+            login(token, mail, username, roles)
 
             console.log("user logged in")
         } catch (error) {
@@ -102,14 +102,15 @@ function Login() {
                             <InputWithLabel
                                 classNameLabel={`${isLoading && "animate"}`}
                                 id="password"
-                                label="password"
+                                label="Password"
                                 placeholder="•••••••••••••••"
                                 type="password"
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}/>
-                            <div className="login--buttonwrapper flex-row">
-                                <Button disabled={isLoading} type="submit">{isLoading ? "Loading" : "Sign in"}</Button>
-                                <Button type="button" onClick={() => navigate('/signup')}>Sign up</Button>
+
+                            <div className="login--buttonwrapper flex-collumn">
+                                <Button disabled={isLoading} type="submit">{isLoading ? "Loading" : "Log in"}</Button>
+                                <Button type="button" onClick={() => navigate('/signup')}>Create account</Button>
                             </div>
                         </form>
                     </div>

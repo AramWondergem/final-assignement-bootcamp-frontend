@@ -32,8 +32,9 @@ function AuthContextProvider({children}) {
 
                     setAuthState({
                         user: {
-                            username: response.data.username,
-                            name: response.data.name
+                            email: response.data.email,
+                            name: response.data.username,
+                            roles: response.data.roles
                         },
                         status: 'done',
                         isAuth: true
@@ -77,19 +78,21 @@ function AuthContextProvider({children}) {
 
 
 
-    function login(token, username, name) {
+    function login(token, email, username, roles) {
 
         localStorage.setItem('token', token);
 
         setAuthState({
             user: {
                 username: username,
-                name: name
+                email: email,
+                roles: roles
             },
             status: 'done',
             isAuth: true
         });
         navigate('/')
+        console.log(authState)
 
     }
 

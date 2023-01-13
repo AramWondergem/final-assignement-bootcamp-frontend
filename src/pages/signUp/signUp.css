@@ -10,7 +10,7 @@
 .signup--contentwrapper{
     flex: 0 0 90vh;
     margin: var(--padding-large) 0;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: stretch;
 
 }
