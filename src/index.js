@@ -9,8 +9,6 @@ import AuthContextProvider from "./context/AuthContext";
 //axios config defaults
 
 axios.defaults.baseURL = 'http://localhost:8080/v1';
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
