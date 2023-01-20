@@ -9,7 +9,9 @@ function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, cla
                     className={`input-component input-component-textarea ${classNameInput} ${error && "error-field"}`}
                     id={id}
                     rows={row}
-                    {...reactHookForm}
+                    {...reactHookForm }
+
+
                 />
                 :
                 <input
@@ -17,6 +19,7 @@ function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, cla
                     type={type} id={id}
 
                    {...reactHookForm}
+
                    />}
             {error ? <p className={`input-errormessage-active`}>{errorMessage}</p> : <p className="input-errormessage">Hier staat een error message</p>}
         </>

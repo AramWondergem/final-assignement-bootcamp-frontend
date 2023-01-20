@@ -14,7 +14,11 @@ import InputWithLabelHookForm from "../../components/inputWithLabel/InPutWIthLab
 function Profile(props) {
 
     const [fillInForm, toggleFillInForm] = useState(false)
-    const {register} = useForm();
+    const [explanationRequired, toggleExplanationRequired] = useState(false);
+    const {register, handleSubmit, formState: {errors, defaultValues}, watch} = useForm();
+    const watchAllergies = watch('allergies');
+
+
 
     function onClickButtonChangeForm(event) {
         event.preventDefault()
@@ -22,17 +26,34 @@ function Profile(props) {
         toggleFillInForm(!fillInForm);
     }
 
-// useEffect(() => {
-//     console.log("fill")
-//
-// }, [fillInForm]);
+    function onSave(data) {
+        console.log(data)
+        toggleFillInForm(!fillInForm);
+    }
 
+    useEffect(() => {
+
+        if(watchAllergies === "Grumpy humans") {
+            toggleExplanationRequired(false)
+        } else if(watchAllergies === undefined) {
+            toggleExplanationRequired(false);
+            console.log(false);
+        } else {
+            toggleExplanationRequired(true);
+            console.log(true)
+        }
+
+
+
+    }, [watchAllergies])
+
+console.log(watchAllergies)
 
     return (
         <>
             <Header/>
             <main className="profile outerbox">
-                <form className="profile--innerbox innerbox flex-collumn">
+                <form onSubmit={handleSubmit(onSave)} className="profile--innerbox innerbox flex-collumn">
                     <div className="profile--tilewrapper flex-wrap-row">
 
                         <Tile type="picture">
@@ -82,17 +103,37 @@ function Profile(props) {
                                         id="name"
                                         label="The Fabulous:"
                                         type="text"
-                                        reactHookForm={register("name")}/>
+                                        error={errors.name}
+                                        errorMessage={errors.name? errors.name.message : ''}
+                                        reactHookForm={register("name", {
+                                            required:{
+                                                value: true,
+                                                message: 'The elves want to keep it personal, so fill in your name'
+                                            }
+                                        })}/>
                                     <InputWithLabelHookForm
                                         id="email"
                                         label="E-mail address:"
                                         type="email"
-                                        reactHookForm={register("email")}/>
+                                        error={errors.email}
+                                        errorMessage={errors.email? errors.email.message : ''}
+                                        reactHookForm={register("email", {
+                                            required:{
+                                                value: true,
+                                                message: 'Fill in a valid e-mail address'
+                                            }
+                                        })}/>
                                     <InputWithLabelHookForm
                                         id="favorite-colour"
                                         label="Favorite colour:"
                                         type="text"
-                                        reactHookForm={register("favorite-colour")}/>
+                                        error={errors['favorite-colour']}
+                                        errorMessage={errors['favorite-colour'] ? errors['favorite-colour'].message : ''}
+                                        reactHookForm={register("favorite-colour",{
+                                            required: {
+                                            value: true,
+                                            message: 'The elves want to know your favorite colour'
+                                        }})}/>
                                 </>
 
                                 :
@@ -116,13 +157,19 @@ function Profile(props) {
                                         id="allergies"
                                         label="Allergies:"
                                         type="text"
-                                        reactHookForm={register("name")}/>
+                                        reactHookForm={register("allergies")}/>
                                     <InputWithLabelHookForm
                                         textarea={true}
                                         row={4}
                                         id="allergies-explanation"
                                         label="Explanation:"
-                                        reactHookForm={register("allergies-explanation")}/>
+                                        error={errors['allergies-explanation']}
+                                        errorMessage={errors['allergies-explanation'] ? errors['allergies-explanation'].message : ''}
+                                        reactHookForm={register("allergies-explanation",{
+                                            required:{
+                                                value: explanationRequired,
+                                                message: 'The elves want to know more about your allergy. Can you describe the severity of your allergy?'
+                                            }})}/>
 
                                 </>
 
@@ -145,11 +192,14 @@ function Profile(props) {
                         </Button>
                         {fillInForm
                             ?
-                            <Button className="profile--savebutton">
+                            <Button className="profile--savebutton"
+                            type="submit">
                                 Save
                             </Button>
                             :
-                            <Button className="profile--cookbutton">
+                            <Button
+                            type="button"
+                                className="profile--cookbutton">
                                 Become a cook
                             </Button>}
                     </div>
