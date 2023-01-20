@@ -10,24 +10,85 @@ import tiger1 from "../../assets/tiger1.jpg"
 import eggplant from "../../assets/eggplant.jpg"
 import celeriac from "../../assets/celeric.jpg"
 import InputWithLabelHookForm from "../../components/inputWithLabel/InPutWIthLabelHookForm";
+import useFetch from "../../customHooks/useFetch";
+import useMyUpdate from "../../customHooks/useMyUpdate";
+import axios from "axios";
 
 function Profile(props) {
 
     const [fillInForm, toggleFillInForm] = useState(false)
     const [explanationRequired, toggleExplanationRequired] = useState(false);
-    const {register, handleSubmit, formState: {errors, defaultValues}, watch} = useForm();
+    const [userData, setUserData] = useState({
+        streetAndNumber: null,
+        zipcode:null,
+        city:null,
+        username:null,
+        email:null ,
+        favoriteColour:null,
+        allergies:null,
+        allergiesExplanation: null
+    });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState({});
+    const url = '/users'
+    const {register, handleSubmit, formState: {errors, defaultValues}, watch, reset} = useForm({
+        defaultValues: {
+            'streetAndNumber' : `${userData.streetAndNumber || 'Uppercatclass 56'}`,
+            'zipcode' :`${userData.zipcode || '1234 ZL'}`,
+            'city': `${userData.city || 'Tigertown'}`,
+            'username':`${userData.username || 'Tiger the cat'}` ,
+            'email':`${userData.email || 'tigerthecat@thejungle.com'}` ,
+            'favoriteColour':`${userData.favoriteColour || 'Yellow and Pink'}` ,
+            'allergies':`${userData.allergies || 'Grumpy humans'}` ,
+            'allergiesExplanation':`${userData.allergiesExplanation || ''}`
+        }
+    });
     const watchAllergies = watch('allergies');
+
+    useFetch(url,setUserData ,setIsLoading, setError );
+
+
 
 
 
     function onClickButtonChangeForm(event) {
         event.preventDefault()
 
+        if(fillInForm) {
+            reset(defaultValues)
+        }
+
         toggleFillInForm(!fillInForm);
     }
 
-    function onSave(data) {
+    async function onSave(data) {
         console.log(data)
+
+        setIsLoading( true );
+        try {
+            // Fetch the response
+            const response = await axios.put( url, data,{ headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${localStorage.getItem('token')}`
+                }})
+                // Catch cancellation error (couldn't be fetched in the catch block)
+                .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
+            // Set the data
+
+            console.log(response);
+
+            setUserData( response.data );
+            setError( null );
+
+
+        } catch ( err ) {
+            // Catch the error
+            setError( err.message );
+
+        } finally {
+            // Set loading to initial state
+            setIsLoading( false );
+        }
         toggleFillInForm(!fillInForm);
     }
 
@@ -35,19 +96,19 @@ function Profile(props) {
 
         if(watchAllergies === "Grumpy humans") {
             toggleExplanationRequired(false)
-        } else if(watchAllergies === undefined) {
+        } else if(watchAllergies === '') {
             toggleExplanationRequired(false);
-            console.log(false);
+
         } else {
             toggleExplanationRequired(true);
-            console.log(true)
+
         }
-
-
 
     }, [watchAllergies])
 
-console.log(watchAllergies)
+
+
+
 
     return (
         <>
@@ -68,7 +129,7 @@ console.log(watchAllergies)
                                         id="street-and-number"
                                         label="Street and Number:"
                                         type="text"
-                                        reactHookForm={register("street-and-number")}/>
+                                        reactHookForm={register("streetAndNumber")}/>
                                     <InputWithLabelHookForm
                                         id="zipcode"
                                         label="Zipcode:"
@@ -84,11 +145,11 @@ console.log(watchAllergies)
                                 :
                                 <>
                                     <h3>Street and Number:</h3>
-                                    <p>Uppercatclass 56</p>
+                                    <p>{userData.streetAndNumber || 'Uppercatclass 56'}</p>
                                     <h3>Zipcode:</h3>
-                                    <p>1234 ZL</p>
+                                    <p>{userData.zipcode || '1234 ZL'}</p>
                                     <h3>City:</h3>
-                                    <p>Tigertown</p>
+                                    <p>{userData.city || 'Tigertown'}</p>
                                 </>
                             }
                         </Tile>
@@ -103,9 +164,9 @@ console.log(watchAllergies)
                                         id="name"
                                         label="The Fabulous:"
                                         type="text"
-                                        error={errors.name}
-                                        errorMessage={errors.name? errors.name.message : ''}
-                                        reactHookForm={register("name", {
+                                        error={errors.username}
+                                        errorMessage={errors.username? errors.username.message : ''}
+                                        reactHookForm={register("username", {
                                             required:{
                                                 value: true,
                                                 message: 'The elves want to keep it personal, so fill in your name'
@@ -127,9 +188,9 @@ console.log(watchAllergies)
                                         id="favorite-colour"
                                         label="Favorite colour:"
                                         type="text"
-                                        error={errors['favorite-colour']}
-                                        errorMessage={errors['favorite-colour'] ? errors['favorite-colour'].message : ''}
-                                        reactHookForm={register("favorite-colour",{
+                                        error={errors.favoriteColour}
+                                        errorMessage={errors.favoriteColour ? errors.favoriteColour.message : ''}
+                                        reactHookForm={register("favoriteColour",{
                                             required: {
                                             value: true,
                                             message: 'The elves want to know your favorite colour'
@@ -139,11 +200,11 @@ console.log(watchAllergies)
                                 :
                                 <>
                             <h3>The Fabulous:</h3>
-                            <p>Tiger the cat</p>
+                            <p>{userData.username || 'Tiger the cat'}</p>
                             <h3>E-mail address:</h3>
-                            <p>tigerthecat@thejungle.com</p>
+                            <p>{userData.email || 'tigerthecat@thejungle.com'}</p>
                             <h3>Favorite colour:</h3>
-                            <p>Yellow and Pink</p>
+                            <p>{userData.favoriteColour || 'Yellow and Pink'}</p>
                                 </>}
                         </Tile>
                         <Tile type="picture">
@@ -163,9 +224,9 @@ console.log(watchAllergies)
                                         row={4}
                                         id="allergies-explanation"
                                         label="Explanation:"
-                                        error={errors['allergies-explanation']}
-                                        errorMessage={errors['allergies-explanation'] ? errors['allergies-explanation'].message : ''}
-                                        reactHookForm={register("allergies-explanation",{
+                                        error={errors.allergiesExplanation}
+                                        errorMessage={errors.allergiesExplanation ? errors.allergiesExplanation.message : ''}
+                                        reactHookForm={register("allergiesExplanation",{
                                             required:{
                                                 value: explanationRequired,
                                                 message: 'The elves want to know more about your allergy. Can you describe the severity of your allergy?'
@@ -176,10 +237,9 @@ console.log(watchAllergies)
                                 :
                                 <>
                                     <h3>Allergies</h3>
-                                    <p>Grumpy humans</p>
+                                    <p>{userData.allergies || 'Grumpy humans'}</p>
                                     <h3>Explanation:</h3>
-                                    <p>When I see a grumpy human it tickles my brain. One grumpy human a day is not life
-                                        threathing, but that is my limit</p>
+                                    <p>{userData.allergiesExplanation || 'When I see a grumpy human it tickles my brain. One grumpy human a day is not life threathing, but that is my limit'}</p>
                                 </>
                             }
                         </Tile>

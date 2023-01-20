@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import axios from "axios";
 
-function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
+function useMyUpdate (dataUrl, json, setData, setCatchError, setIsLoading ) {
 
     useEffect( () => {
 
@@ -10,26 +10,26 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
         const { signal } = controller;
 
         // Fetch data function declaration
-        const fetchData = async ( url ) => {
+        const updateData = async ( url ) => {
             setIsLoading( true );
             try {
                 // Fetch the response
-                    const response = await axios.get( url, { headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `${localStorage.getItem('token')}`,
+                const response = await axios.put( url, {json},{ headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${localStorage.getItem('token')}`,
                         signal
                     }})
-                        // Catch cancellation error (couldn't be fetched in the catch block)
-                        .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
-                    // Set the data
+                    // Catch cancellation error (couldn't be fetched in the catch block)
+                    .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
+                // Set the data
 
-                        setData( response.data );
-                        setCatchError( null );
+                setData( response.data );
+                setCatchError( null );
 
 
             } catch ( err ) {
                 // Catch the error
-                    setCatchError( err.message );
+                setCatchError( err.message );
 
             } finally {
                 // Set loading to initial state
@@ -37,7 +37,7 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
             }
         }
         // Call the Fetch Data function
-        fetchData( dataUrl )
+        updateData( dataUrl )
 
         // Cleanup the request on cancellation
         return function cleanUp() {
@@ -48,4 +48,4 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
 
 }
 
-export default useFetch;
+export default useMyUpdate;
