@@ -95,9 +95,7 @@ h1,h2,h3,h4 {
     font-family: var(--font-headings);
     font-weight: var(--font-weight-700);
     color: var(--color-dark);
-    text-shadow:
-
-    1px 1px var(--color-primary);
+    text-shadow: 1px 1px var(--color-primary);
 
 }
 

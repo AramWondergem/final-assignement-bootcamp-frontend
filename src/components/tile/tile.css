@@ -7,7 +7,7 @@
 
 
     flex: 0 0 350px;
-    height: 300px;
+    height: 350px;
     position: relative;
 
     display: flex;
@@ -31,10 +31,15 @@
 .tile-picture {
     justify-content: center;
     align-items: center;
+
 }
 
 .tile-text {
     flex-direction: column;
     justify-content: flex-start;
-    gap: var(--padding-small)
+
+}
+
+.tile-text p {
+    margin-bottom: var(--padding-small);
 }
