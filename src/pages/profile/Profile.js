@@ -16,7 +16,9 @@ import axios from "axios";
 
 function Profile(props) {
 
-    const [fillInForm, toggleFillInForm] = useState(false)
+    const [fillInForm, toggleFillInForm] = useState(false);
+    const [profileImg, setProfileImg] = useState("");
+    const [loadingImg, setLoadingImg] = useState(false);
     const [explanationRequired, toggleExplanationRequired] = useState(false);
     const [userData, setUserData] = useState({
         streetAndNumber: null,
@@ -26,11 +28,12 @@ function Profile(props) {
         email:null ,
         favoriteColour:null,
         allergies:null,
-        allergiesExplanation: null
+        allergiesExplanation: null,
+        profilePicture: null
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState({});
-    const url = '/users'
+
     const {register, handleSubmit, formState: {errors, defaultValues}, watch, reset} = useForm({
         defaultValues: {
             'streetAndNumber' : `${userData.streetAndNumber || 'Uppercatclass 56'}`,
@@ -45,7 +48,7 @@ function Profile(props) {
     });
     const watchAllergies = watch('allergies');
 
-    useFetch(url,setUserData ,setIsLoading, setError );
+    useFetch("/users",setUserData ,setIsLoading, setError );
 
 
 
@@ -61,19 +64,34 @@ function Profile(props) {
         toggleFillInForm(!fillInForm);
     }
 
+
+
+
+
     async function onSave(data) {
         console.log(data)
 
         setIsLoading( true );
         try {
-            // Fetch the response
-            const response = await axios.put( url, data,{ headers: {
+            const formData = new FormData();
+            formData.append("file", data.profilePicture[0])
+
+            const responsePicture = await axios.post( "/files", formData,{ headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `${localStorage.getItem('token')}`
+                }})
+                .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
+
+            console.log(responsePicture);
+
+            data.profilePicture = responsePicture.headers.get('Location');
+
+
+            const response = await axios.put( "/users", data,{ headers: {
                     "Content-Type": "application/json",
                     Authorization: `${localStorage.getItem('token')}`
                 }})
-                // Catch cancellation error (couldn't be fetched in the catch block)
                 .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
-            // Set the data
 
             console.log(response);
 
@@ -82,15 +100,62 @@ function Profile(props) {
 
 
         } catch ( err ) {
-            // Catch the error
             setError( err.message );
 
         } finally {
-            // Set loading to initial state
             setIsLoading( false );
         }
         toggleFillInForm(!fillInForm);
     }
+
+    useEffect(() => {
+
+        if(userData.profilePicture) {
+            const controller = new AbortController();
+            const { signal } = controller;
+
+            // Fetch data function declaration
+            const fetchData = async ( url ) => {
+                setLoadingImg( true );
+                try {
+                    // Fetch the response
+                    const response = await axios.get( url, { headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${localStorage.getItem('token')}`,
+                            signal
+                        }})
+                        // Catch cancellation error (couldn't be fetched in the catch block)
+                        .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
+                    // Set the data
+                    console.log(response)
+
+                    const fileReader = new FileReader();
+                    fileReader.onloadend = () => setProfileImg(fileReader.result);
+                    fileReader.readAsDataURL(response.data);
+
+                    setError( null );
+
+
+                } catch ( err ) {
+                    // Catch the error
+                    setError( err.message );
+
+                } finally {
+                    // Set loading to initial state
+                    setLoadingImg( false );
+                }
+            }
+            // Call the Fetch Data function
+            fetchData(userData.profilePicture);
+
+            // // Cleanup the request on cancellation
+            // return function cleanUp() {
+            //     console.log( 'Clean up function' );
+            //     controller.abort();
+            // };
+
+        }
+    }, []);
 
     useEffect(() => {
 
@@ -104,11 +169,15 @@ function Profile(props) {
 
         }
 
-    }, [watchAllergies])
+    }, [watchAllergies]);
 
+useEffect(() => {
 
+    console.log("profilePIc")
 
+}, [profileImg])
 
+console.log(profileImg);
 
     return (
         <>
@@ -117,9 +186,24 @@ function Profile(props) {
                 <form onSubmit={handleSubmit(onSave)} className="profile--innerbox innerbox flex-collumn">
                     <div className="profile--tilewrapper flex-wrap-row">
 
-                        <Tile type="picture">
-                            <div className="profile--imagewrapper imagewrapper imagewrapper-profilepicture"><img
-                                className="profile--profilepicture" src={tiger1} alt="profile picture"/></div>
+                        <Tile type={fillInForm ? "text" :"picture"}>
+                            {fillInForm ?
+                            <>
+                                <InputWithLabelHookForm
+                                    id="profilePicture"
+                                    label="Profile picture:"
+                                    type="file"
+                                    reactHookForm={register("profilePicture")}/>
+
+                            </>
+
+                            :
+                            <>
+                                <div className="profile--imagewrapper imagewrapper imagewrapper-profilepicture"><img
+                                    className="profile--profilepicture" src={profileImg} alt="profile picture"/></div>
+                            </>
+                            }
+
 
                         </Tile>
                         <Tile type="text">
@@ -153,10 +237,10 @@ function Profile(props) {
                                 </>
                             }
                         </Tile>
-                        <Tile type="picture">
+                        {!fillInForm && <Tile type="picture">
                             <div className="profile--imagewrapper imagewrapper"><img
                                 className="profile--vegetablepicture" src={celeriac} alt="picture of celeric"/></div>
-                        </Tile>
+                        </Tile>}
                         <Tile type="text">
                             {fillInForm ?
                                 <>
@@ -207,10 +291,11 @@ function Profile(props) {
                             <p>{userData.favoriteColour || 'Yellow and Pink'}</p>
                                 </>}
                         </Tile>
-                        <Tile type="picture">
+                        {!fillInForm && <Tile type="picture">
                             <div className="profile--imagewrapper imagewrapper"><img
                                 className="profile--vegetablepicture" src={eggplant} alt="picture of eggplant"/></div>
-                        </Tile>
+                        </Tile>}
+
                         <Tile type="text">
                             {fillInForm ?
                                 <>

@@ -1,6 +1,8 @@
 import {useEffect} from "react";
 import axios from "axios";
 
+
+// todo misschien verwijderen
 function useMyUpdate (dataUrl, json, setData, setCatchError, setIsLoading ) {
 
     useEffect( () => {

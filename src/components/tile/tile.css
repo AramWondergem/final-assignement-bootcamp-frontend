@@ -6,7 +6,7 @@
     padding: var(--padding-large);
 
 
-    flex: 0 0 350px;
+    flex: 1 0 350px;
     height: 350px;
     position: relative;
 

@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import axios from "axios";
 
-function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
+function useFetch ( dataUrl, setData, setCatchError, setIsLoading, dependencies ) {
 
     useEffect( () => {
 
@@ -40,11 +40,11 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading ) {
         fetchData( dataUrl )
 
         // Cleanup the request on cancellation
-        return function cleanUp() {
-            console.log( 'Clean up function' );
-            controller.abort();
-        };
-    }, [dataUrl] );
+        // return function cleanUp() {
+        //     console.log( 'Clean up function' );
+        //     controller.abort();
+        // };
+    }, [dependencies] );
 
 }
 
