@@ -29,7 +29,7 @@
 .input-errormessage-active {
     padding-left: var(--padding-medium);
     margin-top: var(--padding-small);
-    margin-bottom: var(--padding-medium);
+    margin-bottom: var(--padding-small);
     color: var(--color-primary);
     text-shadow: 1px 1px var(--color-dark);
     font-size: var(--fontsize-300);

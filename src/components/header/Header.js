@@ -8,7 +8,7 @@ import {AuthContext} from "../../context/AuthContext";
 
 function Header(props) {
 
-    const {logout} = useContext(AuthContext);
+    const {logout,user} = useContext(AuthContext);
 
     return (
         <header className="header outerbox">
@@ -27,15 +27,11 @@ function Header(props) {
                                 to="/">
                                 <h3>Home</h3>
                             </NavLink></li>
-                            <li><NavLink
-                                className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                                to="/">
-                                <h3>current menu</h3>
-                            </NavLink></li>
+
                         </ul>
                     </nav>
                     <div className="header--img-and-logout-wrapper flex-row">
-                        <div className="header--imagewrapper"><img src={tiger} alt="profile picture"/></div>
+                        <div className="header--imagewrapper"><img src={user.profilePicture || tiger} alt="profile picture"/></div>
                         <Button type="button"
                                 className="header--button"
                                 onClick={logout}

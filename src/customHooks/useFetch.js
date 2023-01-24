@@ -40,10 +40,10 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading, dependencies 
         fetchData( dataUrl )
 
         // Cleanup the request on cancellation
-        // return function cleanUp() {
-        //     console.log( 'Clean up function' );
-        //     controller.abort();
-        // };
+        return function cleanUp() {
+            console.log( 'Clean up function' );
+            controller.abort();
+        };
     }, [dependencies] );
 
 }

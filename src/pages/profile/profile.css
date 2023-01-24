@@ -25,7 +25,9 @@
     box-shadow: 6px 4px 0 var(--color-primary);
 }
 
-
+.profile--button-errormessage-wrapper{
+    align-self: flex-end;
+}
 
 .profile--buttonwrapper {
     align-self: flex-end;

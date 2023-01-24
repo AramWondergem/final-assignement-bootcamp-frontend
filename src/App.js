@@ -18,7 +18,7 @@ function App() {
             <Route exact path='/' element={ isAuth ? <Home/> : <Navigate to="/login"/>}/>
             <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
             <Route exact path='/signup' element={<SignUp/>}/>
-            <Route exact path='/profile' element={<Profile/>}/> //todo beveiliging erop zetten
+            <Route exact path='/profile' element={isAuth ?<Profile/> : <Navigate to="/login"/> }/>
         </Routes>
     </>
   );

@@ -12,7 +12,7 @@ function AuthContextProvider({children}) {
         status: 'pending',
         isAuth: false,
     });
-    const dataUrlGet = '/users'
+
 
     const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ function AuthContextProvider({children}) {
     async function fetchUserData( token, redirect) {
         try {
             // Fetch the response
-            const response = await axios.get(dataUrlGet,{ headers: {
+            const response = await axios.get('/users',{ headers: {
                 "Content-Type": "application/json",
                     Authorization: `${token}`,}})
 
@@ -58,7 +58,8 @@ function AuthContextProvider({children}) {
                     email: response.data.email,
                     username: response.data.username,
                     roles: response.data.roles,
-                    id: response.data.id
+                    id: response.data.id,
+                    profilePicture: response.data.profilePicture
                 },
                 status: 'done',
                 isAuth: true
