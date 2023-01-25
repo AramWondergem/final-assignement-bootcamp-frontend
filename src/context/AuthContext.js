@@ -12,50 +12,16 @@ function AuthContextProvider({children}) {
         status: 'pending',
         isAuth: false,
     });
-    const dataUrlGet = '/users'
+
 
     const navigate = useNavigate();
 
 
     useEffect(() => {
         if (localStorage.getItem('token') && validateTokenDate(localStorage.getItem('token'))) {
+
             console.log("there is a valid token in local storage")
-            // I could not make use of useFetch inside a callback function, so that is why I do not call useFetch
-
-            // Fetch data function declaration
-            const fetchData = async (url) => {
-                try {
-                    // Fetch the response
-                    const response = await axios.get(url) //global axios defaults are in index.js
-
-                    setAuthState({
-                        user: {
-                            email: response.data.email,
-                            username: response.data.username,
-                            roles: response.data.roles
-                        },
-                        status: 'done',
-                        isAuth: true
-                    });
-
-
-                } catch (error) {
-                    // Catch the error
-                    console.log(error);
-                    console.log("Something went wrong at the backend when fetching userdata. This can be due to a invalid token. Login again. There is not more information shared due to security reasons")
-                    setAuthState({ // if error occurs it wil go back to inlog screen
-                        user: null,
-                        status: 'done',
-                        isAuth: false
-                    });
-                    navigate('/login')
-                    localStorage.clear();
-
-                }
-            }
-            // Call the Fetch Data function
-            fetchData(dataUrlGet)
-
+            void fetchUserData(localStorage.getItem('token'));
 
         } else {
             setAuthState({
@@ -64,29 +30,52 @@ function AuthContextProvider({children}) {
                 isAuth: false
             });
 
-            localStorage.clear();
+            console.log("There is no token or it is not valid anymore")
         }
 
     }, [])
 
 
-    function login(token, email, username, roles) {
+    function login(token) {
 
         localStorage.setItem('token', token);
 
-        setAuthState({
-            user: {
-                username: username,
-                email: email,
-                roles: roles
-            },
-            status: 'done',
-            isAuth: true
-        });
-        console.log(authState)
-        navigate('/')
-        console.log(authState)
+        fetchUserData(token, "/") // redirected to home
+    }
 
+
+    async function fetchUserData( token, redirect) {
+        try {
+            // Fetch the response
+            const response = await axios.get('/users',{ headers: {
+                "Content-Type": "application/json",
+                    Authorization: `${token}`,}})
+
+            console.log(response)
+
+            setAuthState({
+                user: {
+                    email: response.data.email,
+                    username: response.data.username,
+                    roles: response.data.roles,
+                    id: response.data.id,
+                    profilePicture: response.data.profilePicture
+                },
+                status: 'done',
+                isAuth: true
+            });
+
+            if (redirect) {
+            navigate(redirect);
+            }
+
+        } catch (error) {
+            // Catch the error
+            console.log(error);
+            console.log("Something went wrong at the backend when fetching userdata. This can be due to a invalid token. Login again. There is not more information shared due to security reasons")
+            logout();
+
+        }
     }
 
     function logout() {

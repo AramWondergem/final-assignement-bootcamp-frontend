@@ -6,11 +6,32 @@
 .input-component {
     border: 3px solid var(--color-dark);
     box-shadow: 12px 10px 0 var(--color-dark);
-    border-radius: 45px;
-    margin-bottom: var(--padding-large);
+    border-radius: 20px;
+
     padding: var(--padding-extra-smal) var(--padding-medium)
 }
 
+
+
 .error-field {
     border-color: var(--color-primary);
+}
+
+.input-errormessage {
+    padding-left: var(--padding-medium);
+    margin-top: var(--padding-small);
+    margin-bottom: var(--padding-small);
+    color: transparent ;
+    font-size: var(--fontsize-300);
+
+}
+
+.input-errormessage-active {
+    padding-left: var(--padding-medium);
+    margin-top: var(--padding-small);
+    margin-bottom: var(--padding-small);
+    color: var(--color-primary);
+    text-shadow: 1px 1px var(--color-dark);
+    font-size: var(--fontsize-300);
+
 }

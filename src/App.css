@@ -42,7 +42,7 @@
     --background-button: var(--color-secondary);
     --background-button-active: var(--color-secondary-light);
 
-    --basic-screen-width: 1000px;
+    --basic-screen-width: 1200px;
     --gap: 20px;
     --tile-width: 300px;
 
@@ -95,12 +95,7 @@ h1,h2,h3,h4 {
     font-family: var(--font-headings);
     font-weight: var(--font-weight-700);
     color: var(--color-dark);
-    text-shadow:
-    -1px -1px 0 var(--color-primary-light),
-    1px -1px 0 var(--color-primary-light),
-    -1px 1px 0 var(--color-primary-light),
-    1px 1px 0 var(--color-primary-light),
-    4px 4px var(--color-primary);
+    text-shadow: 1px 1px var(--color-primary);
 
 }
 
