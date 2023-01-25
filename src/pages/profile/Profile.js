@@ -5,14 +5,13 @@ import Header from "../../components/header/Header";
 import Tile from "../../components/tile/Tile";
 import Button from "../../components/button/Button";
 import {useForm} from 'react-hook-form';
-
-import tiger1 from "../../assets/tiger1.jpg"
 import eggplant from "../../assets/eggplant.jpg"
 import celeriac from "../../assets/celeric.jpg"
 import InputWithLabelHookForm from "../../components/inputWithLabel/InPutWIthLabelHookForm";
 import fetchData from "../../customHooks/useFetch";
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
+import ProfilePicture from "../../components/profilePicture/ProfilePicture";
 
 function Profile(props) {
 
@@ -145,6 +144,8 @@ function Profile(props) {
                 .catch( e => e.code === "ERR_CANCELED" && console.log( "Fetch Request Cancelled" ) );
 
             console.log(response.data);
+
+            user.roles.push('COOK');
         } catch ( err ) {
             setError( err.message );
 
@@ -177,8 +178,9 @@ function Profile(props) {
                             </>
                             :
                             <>
-                                <div className="profile--imagewrapper imagewrapper imagewrapper-profilepicture"><img
-                                    className="profile--profilepicture" src={userData.profilePicture || tiger1} alt="profile picture"/></div>
+                                <ProfilePicture
+                                    className="imagewrapper-profilepicture"
+                                large={true}/>
                             </>
                             }
                         </Tile>

@@ -1,0 +1,20 @@
+.createMenu{
+    padding: var(--padding-XXXL) 0;
+    background-color: var(--background-body);
+}
+
+.createMenu--innerbox {
+    gap: var(--padding-XXXL);
+
+}
+
+.createMenu--tilewrapper{
+
+    justify-content: space-evenly;
+    gap:40px;
+
+}
+
+.createMenu--buttonwrapper {
+    align-self: flex-end;
+}

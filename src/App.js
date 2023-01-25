@@ -6,6 +6,7 @@ import Home from "./pages/home/Home";
 import {AuthContext} from "./context/AuthContext";
 import SignUp from "./pages/signUp/SignUp";
 import Profile from "./pages/profile/Profile";
+import CreateMenu from "./pages/createMenu/CreateMenu";
 
 
 
@@ -19,6 +20,7 @@ function App() {
             <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
             <Route exact path='/signup' element={<SignUp/>}/>
             <Route exact path='/profile' element={isAuth ?<Profile/> : <Navigate to="/login"/> }/>
+            <Route exact path='/create' element={<CreateMenu/>}/>
         </Routes>
     </>
   );
