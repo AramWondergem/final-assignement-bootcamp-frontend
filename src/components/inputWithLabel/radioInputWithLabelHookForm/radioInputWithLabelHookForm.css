@@ -22,6 +22,12 @@
     box-shadow: 6px 4px 0 var(--color-dark);
 }
 
+
+
+.input-component-radio:hover{
+    background-color: var(--color-secondary);
+
+}
 .input-component-radio:checked {
     background-color: var(--color-primary);
 }

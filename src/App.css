@@ -45,6 +45,7 @@
     --basic-screen-width: 1200px;
     --gap: 20px;
     --tile-width: 300px;
+    --margin-innerbox: 20px;
 
 }
 
@@ -60,7 +61,7 @@
 
 .innerbox{
     flex: 0 1 var(--basic-screen-width);
-    margin: 0 20px;
+    margin: 0 var(--margin-innerbox);
 }
 
 .flex-collumn {
