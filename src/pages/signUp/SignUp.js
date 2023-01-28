@@ -49,7 +49,6 @@ function SignUp() {
                     email: email,
                     username: username,
                     password: password,
-                    roles: ['USER']
                 });
 
                 console.log(response)

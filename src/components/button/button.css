@@ -6,6 +6,8 @@
     border: 3px solid var(--color-dark);
     box-shadow: 12px 10px 0 var(--color-dark);
     position: relative;
+    white-space: nowrap !important;
+
 }
 
 .button:hover, .button:active {

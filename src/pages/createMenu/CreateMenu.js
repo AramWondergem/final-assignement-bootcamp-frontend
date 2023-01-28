@@ -11,22 +11,22 @@ import RadioInputWIthLabelHookForm
 import Modal from "../../components/modal/Modal";
 import EmptyInputField from "../../components/inputWithLabel/emptyInputField/EmptyInputField";
 import InputCustomer from "../../components/inputWithLabel/inputCustomer/InputCustomer";
+import fetchData from "../../customHooks/useFetch";
+import axios from "axios";
 
 
 function CreateMenu(props) {
-
-
     const {register, handleSubmit, formState: {errors}, watch, setValue, reset} = useForm();
     const [showOverlay, toggleShowOverlay] = useState(false);
+    const [cookData, setCookData] = useState({});
+    const [isloadingCookData, setIsloadingCookData] = useState(false);
+    const [isloadingAddCustomer, setIsloadingAddCustomer] = useState(false);
+    const [error, setError] = useState(null);
+    const [addCustomerToList,toggleAddCustomerToList] = useState(false)
 
-    // useEffect(() => {
-    //     const modal = document.getElementById('modal');
-    // },[] )
-    //
-    //
-    // }
-    //
-    //
+    fetchData("/users", setCookData, setIsloadingCookData, setError, null);
+
+
 
 
     function onClickAddCustomers(event) {
@@ -41,9 +41,36 @@ function CreateMenu(props) {
     }
 
 
-    function onSave(data) {
-        console.log(data);
-    }
+    // async function onSave(data) {
+    //     if(addCustomerToList) {
+    //         console.log(data);
+    //
+    //         setIsloadingAddCustomer(true);
+    //         setCatchError(null);
+    //
+    //         try {
+    //             const response = await axios.post(dataUrlPost, {
+    //                 email: email,
+    //                 username: username,
+    //                 password: password,
+    //
+    //             });
+    //
+    //             console.log(response)
+    //
+    //
+    //             console.log("user signed up")
+    //             navigate("/login")
+    //         } catch (error) {
+    //             setCatchError(error);
+    //             console.log(error)
+    //
+    //         } finally {
+    //             setIsloadingAddCustomer(false)
+    //         }
+    //         toggleAddCustomerToList(false);
+    //     }
+    // }
 
     return (
         <>
@@ -52,38 +79,35 @@ function CreateMenu(props) {
                        classNameContent="createMenu--modal-content"
                        showModal={showOverlay}>
                     <EmptyInputField classname="createMenu--modal-emptyinput flex-wrap-row" paddingBox={true}>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
-                        <InputCustomer className="createMenu--modal-inputcustomer"/>
+                        {cookData.customers && cookData.customers.map((customer) => {
+                            const {id, profilePicture, username, email} = customer;
+
+                            return <InputCustomer
+                                key={`customer${id}`}
+                                reactHookForm={register(`customer`)}
+                                customerId={id}
+                                scrProfilePicture={profilePicture}
+                                name={username}
+                                email={email}
+                                className="createMenu--modal-inputcustomer"/>
+                        })}
+
 
                     </EmptyInputField>
                     <div className="createMenu--modal-buttonwrapper">
                         <div className="createMenu--modal-input-buttonwrapper flex-row">
                             <div className="createMenu--modal-inputwrapper flex-collumn">
                                 <InputWithLabelHookForm classNameInput="createMenu--modal-addcustomerinput"
-                                    id="email"
-                                    label="Add customer:"
-                                    type="email"
-                                    placeholder="tigerthecat@thejungle.com"
-                                    error={errors.email}
-                                    errorMessage={errors.email ? errors.email.message : ''}
-                                    reactHookForm={register("email")}/>
+                                                        id="email"
+                                                        label="Add customer:"
+                                                        type="email"
+                                                        placeholder="tigerthecat@thejungle.com"
+                                                        error={errors.email}
+                                                        errorMessage={errors.email ? errors.email.message : ''}
+                                                        reactHookForm={register("email")}/>
                             </div>
-                            <Button  type="submit">Add</Button>
+                            <Button type="submit"
+                            onClick={() => toggleAddCustomerToList(true)}>Add</Button>
                         </div>
                         <div className="createMenu--modal-rightbuttonwrapper flex-row">
                             <Button
