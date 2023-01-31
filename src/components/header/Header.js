@@ -30,7 +30,7 @@ function Header(props) {
                             </NavLink></li>
                             {user.roles.includes('COOK') && <li><NavLink
                                 className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                                to="/create">
+                                to="/create/new">
                                 <h3>New menu</h3>
                             </NavLink></li>}
 

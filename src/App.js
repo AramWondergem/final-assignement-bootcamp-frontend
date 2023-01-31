@@ -20,7 +20,7 @@ function App() {
             <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
             <Route exact path='/signup' element={<SignUp/>}/>
             <Route exact path='/profile' element={isAuth ?<Profile/> : <Navigate to="/login"/> }/>
-            <Route exact path='/create' element={<CreateMenu/>}/>
+            <Route exact path='/create/:id' element={<CreateMenu/>}/>
         </Routes>
     </>
   );
