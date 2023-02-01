@@ -1,0 +1,95 @@
+.showMenu {
+    padding: var(--padding-XXXL) 0;
+    background-color: var(--background-body);
+}
+
+.showMenu--innerbox {
+    gap: var(--padding-XXXL);
+}
+
+.showMenu--information-tile{
+    align-self: center;
+
+    align-items: center;
+}
+
+
+.showMenu--tilewrapper {
+    gap: var(--padding-XXXL);
+}
+
+.showMenu--tile1{
+    justify-content: center;
+    align-items: center;
+}
+
+.showMenu--tile1 img {
+    border-radius: 10px;
+    min-height: 200px;
+    max-height: 600px;
+}
+
+.showMenu--tile2 {
+    justify-content: space-evenly;
+    gap: var(--padding-small);
+}
+
+.showMenu--tile2-title{
+    align-self: center;
+    text-align: center;
+}
+
+.showMenu--tile2-description {
+    text-align: justify;
+}
+
+.showMenu--tile2-menuRowWrapper {
+    gap: var(--padding-small);
+    align-items: start;
+}
+
+.showMenu--tile3 {
+    justify-content: space-evenly;
+    gap: var(--padding-small);
+}
+
+.showMenu--tile3-cookwrapper {
+    align-self: center;
+    align-items: center;
+    gap: var(--padding-small)
+}
+
+.showMenu--tile3-cookwrapper img {
+    max-width: 160px;
+}
+
+.showMenu--tile3-menuRowWrapper {
+    gap: var(--padding-small);
+}
+
+.showMenu--modal-form {
+    gap: var(--padding-medium);
+}
+
+.showMenu--modal-inputwrapper{
+    gap: var(--padding-XXXL);
+}
+
+.showMenu--modal-deliverywindowtitle {
+    align-self: center;
+}
+
+.showMenu--modal-deliverywindowwrapper{
+    justify-content: space-between;
+    gap: var(--padding-medium);
+}
+
+.showMenu--modal-buttonwrapper {
+    align-self: end;
+    align-items: baseline;
+    padding: var(--padding-small);
+}
+
+.showMenu--modal-totalprice {
+    flex: 0 0 150px;
+}

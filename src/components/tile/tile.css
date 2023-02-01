@@ -6,11 +6,17 @@
     padding: var(--padding-large);
 
 
-    flex: 1 0 350px;
-    /*height: 350px;*/
+
     position: relative;
 
     display: flex;
+}
+
+.tile-flex-row {
+    flex: 1 0 350px;
+}
+.tile-flex-collumn {
+    flex: 0 0;
 }
 
 .shadow{
@@ -43,3 +49,8 @@
 .tile-text p {
     margin-bottom: var(--padding-small);
 }
+
+.tile-yellow {
+    border-color: var(--color-secondary);
+}
+

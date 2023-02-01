@@ -41,7 +41,7 @@ function Profile(props) {
     const [error, setError] = useState({});
 
     // fetch data on mounting
-    fetchData("/users",setUserData ,setIsLoading, setError,null);
+    fetchData("/users",setUserData ,setIsLoading, setError,[]);
 
     // function to set the default value of the fields. With the the react hook form defaultvalues function, you can only set them ones and I want to update them based on the userData
     function setDefaultValues() {
