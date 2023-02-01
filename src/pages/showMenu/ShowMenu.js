@@ -3,24 +3,31 @@ import './showMenu.css';
 import Modal from "../../components/modal/Modal";
 import Tile from "../../components/tile/Tile";
 import Header from "../../components/header/Header";
-import eggplantDish from "../../assets/eggplant-on-plate.jpg"
 import ProfilePicture from "../../components/profilePicture/ProfilePicture";
 import MenuRow from "../../components/menuRow/MenuRow";
 import Button from "../../components/button/Button";
-import smallCat from "../../assets/tijger.jpg"
-import {show} from "react-modal/lib/helpers/ariaAppHider";
+import tiger1 from "../../assets/tiger1.jpg"
 import InputWithLabelHookForm from "../../components/inputWithLabel/InPutWIthLabelHookForm";
 import {useForm} from "react-hook-form";
+import useFetch from "../../customHooks/useFetch";
+import {useParams} from "react-router-dom";
 
 
 function ShowMenu(props) {
-    const [showOverlay, toggleShowOverlay] = useState(true);
+    const {id} = useParams();
+    const [showOverlay, toggleShowOverlay] = useState(false);
     const {register, handleSubmit, formState: {errors}, watch, setValue, reset} = useForm();
     const [fillInDeliveryWindow, setFillInDeliveryWindow] = useState(false);
     const watchStartDeliveryWindow = watch("startDeliveryWindow");
     const watchEndDeliveryWindow = watch("endDeliveryWindow");
     const [explanationRequired, toggleExplanationRequired] = useState(false);
     const watchAllergies = watch('allergies');
+    const [menuData, setMenuData] = useState(null);
+    const [isLoadingMenuData, setIsLoadingMenuData] = useState(false);
+    const [errorMenuData, setErrorMenuData] = useState(null);
+    const [customerData, setCustomerData] = useState(null);
+    const [isLoadingCustomerData, setIsLoadingCustomerData] = useState(false);
+    const [errorCustomerData, setErrorCustomerData] = useState(null);
 
     //function to show or close overlay
     function toggleOverlay(event) {
@@ -47,6 +54,67 @@ function ShowMenu(props) {
             toggleExplanationRequired(true);
         }
     }, [watchAllergies]);
+
+    // fetch data customer
+    useFetch(`/users`,setCustomerData,setErrorCustomerData,setIsLoadingCustomerData,[]);
+
+    // fetch menu data
+    useFetch(`/menus/${id}`,setMenuData,setErrorMenuData,setIsLoadingMenuData,[]);
+
+    useEffect(()=> console.log(menuData),[menuData]);
+    useEffect(()=> console.log(customerData),[customerData]);
+
+    // function that loads the user data in the input fields
+    function setDefaultValues() {
+
+        Object.keys(customerData).map((key) => {
+            setValue(key, customerData[key])
+        });
+
+
+    }
+
+    useEffect(() => {
+
+        if (customerData) {
+            setDefaultValues()
+        }
+
+    }, [customerData]);
+
+    // function to show the delivery window in a nice format
+
+    function showDeliveryWindow(startDeliveryWindow,endDeliveryWindow) {
+
+        const startDate = new Date(startDeliveryWindow);
+        const endDate = new Date(endDeliveryWindow);
+
+        const startTime = new Intl.DateTimeFormat("nl",{
+            timeStyle: 'short'
+        }).format(startDate);
+
+        const endTime = new Intl.DateTimeFormat("nl",{
+            timeStyle: 'short'
+        }).format(endDate);
+
+        return startTime + " - " + endTime;
+
+    }
+
+    // function to show the text for the header plantbased
+    function showPlantBased(menuType) {
+        switch (menuType) {
+            case 'MEAT':
+                return "no, with death animal"
+            case 'VEGA':
+                return "🥚vega🧀"
+            case 'VEGAN':
+                return "❤👍❤";
+        }
+    }
+
+
+
     return (
         <>
             <Modal classNameModal="showMenu--modal"
@@ -160,35 +228,56 @@ function ShowMenu(props) {
                     <Tile className="showMenu--information-tile" type="yellow" flexCollumn={true}>
                         <MenuRow
                             title="Order deadline:"
-                            text="29/12/2021"/>
+                            text={menuData ? (menuData.orderDeadline ? new Intl.DateTimeFormat("nl", {
+                                timeStyle: "short",
+                                dateStyle: "long"
+                            }).format(new Date(menuData.orderDeadline)) : "Call the cook and ask for a deadline!") : "Call the cook and ask for a deadline!"}/>
                         <Button
                             onClick={toggleOverlay}>Order</Button>
                     </Tile>
-                    <div className="showMenu--tilewrapper flex-row">
+                    <div className="showMenu--tilewrapper flex-wrap-row">
                         <Tile className="showMenu--tile1 flex-collumn">
                             <div className="showMenu--imagewrapper">
                                 <img className="showMenu--imageMenu"
-                                     src={eggplantDish}
+                                     src={menuData && menuData.menuPictureURL ? menuData.menuPictureURL : tiger1}
                                      alt="a key element out of the menu"/></div>
                         </Tile>
                         <Tile className="showMenu--tile2 flex-collumn">
-                            <h2 className="showMenu--tile2-title">Title menu</h2>
-                            <p className="showMenu--tile2-description">This is the tastiest menu ever. The eggplant
-                                comes from a guy who grows them in his
-                                backyard. He sings an opera every day in the greenhouse so that they grow faster.</p>
+                            <h2 className="showMenu--tile2-title">{menuData && menuData.title ? menuData.title: "Ceci n'est pas un titre"}</h2>
+                            <p className="showMenu--tile2-description">{menuData && menuData.menuDescription ? menuData.menuDescription: "Call the cook for an explanation of the menu"}</p>
                             <div className="showMenu--tile2-menuRowWrapper flex-collumn">
-                                <MenuRow
+
+                                {menuData && (menuData.starter || menuData.main || menuData.side || menuData.dessert)
+                                    ?
+                                    <>
+                                    {menuData && menuData.starter && <MenuRow
                                     title="Starter:"
-                                    text="Whole roasted eggplant"/>
-                                <MenuRow
+                                    text={menuData.starter}/> }
+                                {menuData && menuData.main && <MenuRow
                                     title="Main:"
-                                    text="Pasta with roasted eggplant"/>
-                                <MenuRow
+                                    text={menuData.main}/>}
+                                {menuData && menuData.side && <MenuRow
                                     title="Side:"
-                                    text="Salad with roasted eggplant"/>
-                                <MenuRow
+                                    text={menuData.side}/>}
+                                {menuData && menuData.dessert && <MenuRow
                                     title="Dessert:"
-                                    text="Roasted eggplant ice"/>
+                                    text={menuData.dessert}/>}
+                                    </>
+                                    :
+                                    <>
+                                        <MenuRow
+                                            title="Starter:"
+                                            text="trio of fried air"/>
+                                        <MenuRow
+                                            title="Main:"
+                                            text="Deep fried air"/>
+                                        <MenuRow
+                                            title="Side:"
+                                            text="Salad with slowly fried air"/>
+                                        <MenuRow
+                                            title="Dessert:"
+                                            text="fried air crème brûlée"/>
+                                    </>}
 
                             </div>
                         </Tile>
@@ -196,27 +285,32 @@ function ShowMenu(props) {
                             <div className="showMenu--tile3-cookwrapper flex-collumn">
                                 <h3>The beste cook ever</h3>
                                 <ProfilePicture/>
-                                <p>Tiger de Cat</p>
+                                <p>{menuData && menuData.cook.username ? menuData.cook.username: "mystery cook"}</p>
                             </div>
                             <div className="showMenu--tile3-menuRowWrapper flex-collumn">
                                 <MenuRow
                                     title="Price:"
-                                    text="12,50 euro per menu"/>
+                                    // text="12,50 euro per menu"
+                                    text={menuData && menuData.priceMenu ? `${new Intl.NumberFormat('nl', { style: 'currency', currency: 'EUR'}).format(menuData.priceMenu)} per menu`: "Ask the cook"}
+                                />
                                 <MenuRow
                                     title="Plantbased:"
-                                    text="👍"/>
+                                    text={menuData && menuData.menuType ? showPlantBased(menuData.menuType) : "Ask the cook"}/>
                                 <MenuRow
                                     title="Delivery date:"
-                                    text="01/01/2022"/>
+                                    text={menuData && menuData.startDeliveryWindow ? new Intl.DateTimeFormat("nl", {
+                                        dateStyle: "medium"
+                                    }).format(new Date(menuData.startDeliveryWindow)) : "Call the cook and ask for a delivery date!"}/>
                                 <MenuRow
                                     title="Delivery window:"
-                                    text="17:00 - 19:00"/>
+                                    text={menuData && menuData.startDeliveryWindow && menuData.endDeliveryWindow ? showDeliveryWindow(menuData.startDeliveryWindow, menuData.endDeliveryWindow ) : "ask the cook, they forgot the fill it in"}/>
                                 <MenuRow
                                     title="Disclamer:"
                                     text="The food can contain trace elements of all allergens"/>
                             </div>
                         </Tile>
                     </div>
+                    <Button className="showMenu--wiljeme-nuButton" type="button" onClick={toggleOverlay}>Wil je me-nu</Button>
                 </div>
             </main>
         </>

@@ -15,7 +15,14 @@
 
 
 .showMenu--tilewrapper {
-    gap: var(--padding-XXXL);
+    gap: 75px;
+    justify-content: space-evenly;
+    align-content: stretch;
+
+}
+
+.showMenu--tilewrapper .tile {
+    flex: 0 0 350px;
 }
 
 .showMenu--tile1{
@@ -46,6 +53,14 @@
 .showMenu--tile2-menuRowWrapper {
     gap: var(--padding-small);
     align-items: start;
+}
+
+.showMenu--tile2-menuRowWrapper h3{
+    flex: 0 0 80px;
+}
+
+.showMenu--tile2-menuRowWrapper p{
+    flex: 0 0 195px;
 }
 
 .showMenu--tile3 {
@@ -92,4 +107,8 @@
 
 .showMenu--modal-totalprice {
     flex: 0 0 150px;
+}
+
+.showMenu--wiljeme-nuButton {
+    align-self: end;
 }

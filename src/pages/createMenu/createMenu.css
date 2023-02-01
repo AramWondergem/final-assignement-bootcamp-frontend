@@ -52,6 +52,11 @@
 
 }
 
+.createMenu--tilewrapper .tile{
+    flex: 1 0 350px;
+
+}
+
 .createMenu--buttonwrapper {
     align-self: flex-end;
 }

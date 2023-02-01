@@ -11,7 +11,7 @@ import RadioInputWIthLabelHookForm
 import Modal from "../../components/modal/Modal";
 import EmptyInputField from "../../components/inputWithLabel/emptyInputField/EmptyInputField";
 import InputCustomer from "../../components/inputWithLabel/inputCustomer/InputCustomer";
-import fetchData from "../../customHooks/useFetch";
+import useFetch from "../../customHooks/useFetch";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -42,7 +42,7 @@ function CreateMenu(props) {
     const [fillInDeliveryDataAndWindow, setFillInDeliveryDataAndWindow ] = useState(false);
     const [sendMenu ,toggleSendMenu] = useState(false)
 
-    fetchData("/users", setCookData, setIsloadingCookData, setError, [customerAdded]);//to fetch the data of the cook
+    useFetch("/users", setCookData, setIsloadingCookData, setError, [customerAdded]);//to fetch the data of the cook
 
 
     useEffect(() => {
@@ -106,17 +106,20 @@ function CreateMenu(props) {
                     break;
                 case 'customers':
                     const customersIdsArray = menuData.customers.map((customer) => customer.id);
-                    console.log(customersIdsArray)
                     setValue('customersId', customersIdsArray)
                     break;
                 case 'startDeliveryWindow':
-                    const dateAndTimeArrayStart = menuData.startDeliveryWindow.split('T');
-                    setValue('deliveryDate', dateAndTimeArrayStart[0]);
-                    setValue('startDeliveryWindow', dateAndTimeArrayStart[1]);
+                    if(menuData.startDeliveryWindow) {
+                        const dateAndTimeArrayStart = menuData.startDeliveryWindow.split('T');
+                        setValue('deliveryDate', dateAndTimeArrayStart[0]);
+                        setValue('startDeliveryWindow', dateAndTimeArrayStart[1]);
+                    }
                     break;
                 case 'endDeliveryWindow':
+                    if(menuData.endDeliveryWindow) {
                     const dateAndTimeArrayEnd = menuData.endDeliveryWindow.split('T');
                     setValue('endDeliveryWindow', dateAndTimeArrayEnd[1]);
+                }
                     break;
                 default:
                     setValue(key, menuData[key])
@@ -359,12 +362,8 @@ function CreateMenu(props) {
                         <div className="createMenu--modal-rightbuttonwrapper flex-row">
                             <Button
                                 type="button"
-                                // onClick={onClose}
+                                onClick={onClose}
                             >Cancel</Button>
-                            <Button
-                                type="button"
-                                // onClick={onClose}
-                            >Deselect</Button>
                             <Button
                                 type="button"
                                 onClick={onClose}
