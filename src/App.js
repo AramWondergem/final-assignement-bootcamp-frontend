@@ -8,6 +8,8 @@ import SignUp from "./pages/signUp/SignUp";
 import Profile from "./pages/profile/Profile";
 import CreateMenu from "./pages/createMenu/CreateMenu";
 import ShowMenu from "./pages/showMenu/ShowMenu";
+import OverViewCustomer from "./pages/overViewCustomer/OverViewCustomer";
+import OverViewCook from "./pages/overViewCook/OverViewCook";
 
 
 
@@ -23,6 +25,8 @@ function App() {
             <Route exact path='/profile' element={isAuth ?<Profile/> : <Navigate to="/login"/> }/>
             <Route exact path='/create/:id' element={ isAuth ? <CreateMenu/>: <Navigate to="/login"/> }/>
             <Route exact path='/menu/:id' element={ isAuth ? <ShowMenu/>: <Navigate to="/login"/> }/>
+            <Route exact path='/overview/customer' element={ isAuth ? <OverViewCustomer/>: <Navigate to="/login"/> }/>
+            <Route exact path='/overview/cook' element={ isAuth ? <OverViewCook/>: <Navigate to="/login"/> }/>
 
         </Routes>
     </>
