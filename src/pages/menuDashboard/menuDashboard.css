@@ -1,0 +1,20 @@
+.menuDashboard {
+    padding: var(--padding-large) 0;
+    background-color: var(--background-body);
+}
+
+.menuDashboard--orderstile {
+    flex: 0 0 calc(var(--basic-screen-width)/3 - 20)px;
+    gap: var(--padding-large);
+}
+
+.menuDashboard--orderstile-component {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-medium);
+}
+
+.menuDashboard--orderstile-component .emptyInputField {
+    height: 270px;
+
+}

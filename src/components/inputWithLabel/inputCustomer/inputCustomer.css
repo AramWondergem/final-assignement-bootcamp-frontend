@@ -5,7 +5,8 @@
     padding: var(--padding-small);
     border-radius: 20px;
     gap: var(--padding-medium);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .inputCustomer input{
@@ -31,9 +32,14 @@
 .inputCustomer .inputCustomerPicture {
     flex: 0 0 60px;
 }
-.inputCustomer--labeltext{
+.inputCustomer p{
     margin:0 !important;
     font-weight: var(--font-weight-600);
     text-shadow: 1px 1px var(--color-primary);
     white-space: nowrap;
+}
+
+.inputCustomer--textwrapper {
+    align-items: center;
+    gap: var(--padding-small);
 }
