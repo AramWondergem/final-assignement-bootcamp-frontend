@@ -1,0 +1,33 @@
+.home {
+    padding: var(--padding-large) 0;
+    background-color: var(--background-body);
+}
+
+.home--titlewrapper {
+    justify-content: space-evenly;
+}
+.home--contentwrapper {
+    flex: 1 0 calc(var(--basic-screen-width)/2 - 20px);
+    gap: var(--padding-large);
+}
+.home--contentwrapper h2{
+    text-align: center;
+}
+
+
+.home--menubuttonwrapper {
+    justify-content: space-around;
+    padding: var(--padding-medium);
+    height:77vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+.home--menubuttonwrapper .menuButton {
+    flex: 0 0 500px;
+    height: 750px;
+}
+
+
+

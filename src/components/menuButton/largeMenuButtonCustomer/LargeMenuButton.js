@@ -1,26 +1,27 @@
 import React from 'react';
-import './largeMenuButtonCustomer.css'
+import './largeMenuButton.css'
 import '../menuButton.css'
 import '../../tile/tile.css'
 import {useNavigate} from "react-router-dom";
 import MenuRow from "../../menuRow/MenuRow";
 import ProfilePicture from "../../profilePicture/ProfilePicture";
 
-function LargeMenuButtonCustomer({url, menuData}) {
-    const navigate = useNavigate()
+function LargeMenuButton({url, menuData, children}) {
+    const navigate = useNavigate();
     return (
         <button
             className="largeMenuButtonCustomer menuButton tile"
         type="button"
         onClick={()=> navigate(url) }>
 
+            {children ? children : <>
                 <div className="largeMenuButtonCustomer-titleDateWrapper">
-                <h2 className="largeMenuButtonCustomer-title">{menuData && menuData.title ? menuData.title: "Ceci n'est pas un titre"}</h2>
-                <MenuRow
-                    title="Delivery date:"
-                    text={menuData && menuData.startDeliveryWindow ? new Intl.DateTimeFormat("nl", {
-                        dateStyle: "medium"
-                    }).format(new Date(menuData.startDeliveryWindow)) : "Call the cook and ask for a delivery date!"}/>
+                    <h2 className="largeMenuButtonCustomer-title">{menuData && menuData.title ? menuData.title: "Ceci n'est pas un titre"}</h2>
+                    <MenuRow
+                        title="Delivery date:"
+                        text={menuData && menuData.startDeliveryWindow ? new Intl.DateTimeFormat("nl", {
+                            dateStyle: "medium"
+                        }).format(new Date(menuData.startDeliveryWindow)) : "Call the cook and ask for a delivery date!"}/>
                 </div>
                 <div className="largeMenuButtonCustomer-cookwrapper flex-collumn">
                     <h3>The beste cook ever</h3>
@@ -73,9 +74,13 @@ function LargeMenuButtonCustomer({url, menuData}) {
                     }).format(new Date(menuData.orderDeadline)) : "no deadline yet!") : "no deadline yet!"}/>
 
 
+            </>}
+
+
+
 
         </button>
     );
 }
 
-export default LargeMenuButtonCustomer;
+export default LargeMenuButton;
