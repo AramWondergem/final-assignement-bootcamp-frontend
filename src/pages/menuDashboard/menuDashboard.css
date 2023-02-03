@@ -6,12 +6,35 @@
     gap: 50px;
 }
 
-.menuDashboard--orderstile {
+.menuDashboard--titleTile {
+    max-width: calc(var(--basic-screen-width)/2);
+    align-self: center;
+    justify-content: center;
+    align-items: baseline;
+    text-align: center;
+}
+
+.menuDashboard--title-span{
+    font-weight: var(--font-weight-500);
+}
+
+.menuDashboard--acceptedcounter-span{
+    background-color: var(--color-primary-light);
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.menuDashboard--orderfieldswrapper {
     flex: 0 0 400px;
     flex-direction: row;
     gap: var(--padding-large);
     justify-content: space-evenly;
 }
+
+.menuDashboard--saveOrders{
+    align-self: end;
+}
+
 
 .menuDashboard--orderstile-component {
     display: flex;

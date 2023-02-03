@@ -14,9 +14,15 @@ function MenuDashBoard(props) {
             <main className="menuDashboard outerbox">
                 <form onSubmit={() => console.log("dit ga ik nog maken")}
                       className="menuDashboard--innerbox innerbox flex-collumn">
+                    <Tile type="yellow" className="menuDashboard--titleTile flex-row">
+                        <h2>Menu: <span className="menuDashboard--title-span">menu title</span></h2>
+
+
+                    </Tile>
                     <Tile
-                        className="menuDashboard--orderstile flex-row"
+                        className="menuDashboard--orderstile "
                         type="text">
+                        <div className="menuDashboard--orderfieldswrapper flex-row">
                         <div className="menuDashboard--waitinglist menuDashboard--orderstile-component">
                             <h2>Waitinglist:</h2>
                             <EmptyInputField>
@@ -25,6 +31,7 @@ function MenuDashBoard(props) {
                                 <InputCustomerDashboard/>
                                 <InputCustomerDashboard/>
                             </EmptyInputField>
+
                             <div className="menuDashboard--orderstile-buttonwrapper">
                                 <Button
                                     type="submit">
@@ -35,6 +42,21 @@ function MenuDashBoard(props) {
                                     Accept
                                 </Button>
                             </div>
+                        </div>
+                        <div className="menuDashboard--declinedOrders menuDashboard--orderstile-component">
+                            <h2 className="menuDashboard--acceptedcounter">Accepted: <span className="menuDashboard--acceptedcounter-span">12/20</span></h2>
+                            <EmptyInputField>
+                                <InputCustomerDashboard/>
+                                <InputCustomerDashboard/>
+                            </EmptyInputField>
+                            <div className="menuDashboard--orderstile-buttonwrapper">
+
+                                <Button
+                                    type="submit">
+                                    Decline
+                                </Button>
+                            </div>
+
                         </div>
                         <div className="menuDashboard--declinedOrders menuDashboard--orderstile-component">
                             <h2>Declined orders:</h2>
@@ -49,6 +71,13 @@ function MenuDashBoard(props) {
                                     Accept
                                 </Button>
                             </div>
+
+                        </div>
+
+                        </div>
+                        <div className="menuDashboard--saveOrders">
+                            <Button type="submit"  color="pink">Save</Button>
+                            <Button type="submit"  color="pink">Send to customers</Button>
 
                         </div>
                     </Tile>
