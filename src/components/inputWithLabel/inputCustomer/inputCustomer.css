@@ -31,6 +31,7 @@
 
 .inputCustomer .inputCustomerPicture {
     flex: 0 0 60px;
+    height: 60px;
 }
 .inputCustomer p{
     margin:0 !important;

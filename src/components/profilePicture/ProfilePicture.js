@@ -7,7 +7,7 @@ import {AuthContext} from "../../context/AuthContext";
 function ProfilePicture({large, className,src}) {
     const {user} = useContext(AuthContext)
     return (
-        <div className={`profile-picture imagewrapper ${className}`}><img src={src || user.profilePicture || (large && tigerlarge) || tiger } alt="profile picture"/></div>
+        <div className={`profile-picture imagewrapper ${className}`}><img className="profile-picture-image" src={src || user.profilePicture || (large && tigerlarge) || tiger } alt="profile picture"/></div>
     );
 }
 

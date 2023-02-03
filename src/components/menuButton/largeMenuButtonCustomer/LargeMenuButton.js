@@ -25,7 +25,7 @@ function LargeMenuButton({url, menuData, children}) {
                 </div>
                 <div className="largeMenuButtonCustomer-cookwrapper flex-collumn">
                     <h3>The beste cook ever</h3>
-                    <ProfilePicture/>
+                    <ProfilePicture className="largeMenuButtonCustomer-profilePicture"/>
                     <p>{menuData && menuData.cook.username ? menuData.cook.username: "mystery cook"}</p>
                 </div>
 
