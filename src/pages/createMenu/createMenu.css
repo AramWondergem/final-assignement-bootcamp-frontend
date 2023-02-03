@@ -1,0 +1,76 @@
+.createMenu--form{
+    background-color: var(--background-body);
+    flex-grow: 1;
+}
+
+.createMenu--modal-content{
+    gap: var(--padding-medium);
+}
+
+.createMenu--modal-emptyinput {
+    padding: 30px;
+    justify-content: flex-start;
+    gap: 20px 20px ;
+}
+
+.createMenu--modal-inputcustomer{
+    flex: 1 0 236px;
+}
+
+.createMenu--modal-buttonwrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.createMenu--modal-input-buttonwrapper{
+    margin-top: var(--padding-small);
+    gap:var(--padding-medium);
+    align-items: center;
+}
+
+
+
+.createMenu--modal-addcustomerinput{
+    width: 250px;
+}
+
+.createMenu{
+    padding: var(--padding-XXXL) 0;
+
+}
+
+.createMenu--innerbox {
+    gap: var(--padding-XXXL);
+
+}
+
+.createMenu--tilewrapper{
+
+    justify-content: space-evenly;
+    gap:40px;
+
+}
+
+.createMenu--tilewrapper .tile{
+    flex: 1 0 350px;
+
+}
+
+.createMenu--buttonwrapper {
+    align-self: flex-end;
+}
+
+.createMenu--deliverywindowwrapper{
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+

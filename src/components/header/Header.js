@@ -5,6 +5,7 @@ import {NavLink} from "react-router-dom";
 import tiger from '../../assets/tijger.jpg'
 import Button from "../button/Button";
 import {AuthContext} from "../../context/AuthContext";
+import ProfilePicture from "../profilePicture/ProfilePicture";
 
 function Header(props) {
 
@@ -27,11 +28,16 @@ function Header(props) {
                                 to="/">
                                 <h3>Home</h3>
                             </NavLink></li>
+                            {user.roles.includes('COOK') && <li><NavLink
+                                className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                                to="/create/new">
+                                <h3>New menu</h3>
+                            </NavLink></li>}
 
                         </ul>
                     </nav>
                     <div className="header--img-and-logout-wrapper flex-row">
-                        <div className="header--imagewrapper"><img src={user.profilePicture || tiger} alt="profile picture"/></div>
+                        <ProfilePicture className="header--imagewrapper"/>
                         <Button type="button"
                                 className="header--button"
                                 onClick={logout}

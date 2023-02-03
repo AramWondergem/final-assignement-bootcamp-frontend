@@ -1,6 +1,6 @@
 import React from "react";
 
-function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, classNameInput, error, errorMessage, reactHookForm, accept, placeholder}) {
+function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, classNameInput, error, errorMessage, reactHookForm, accept, placeholder, step}) {
     return (
         <>
             <label className={`label-component ${classNameLabel}`} htmlFor={id}><h3>{label}</h3></label>
@@ -21,11 +21,12 @@ function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, cla
                     id={id}
                     accept={accept}
                     placeholder={placeholder}
+                    step={step}
                    {...reactHookForm}
 
 
                    />}
-            {error ? <p className={`input-errormessage-active`}>{errorMessage}</p> : <p className="input-errormessage">Hier staat een error message</p>}
+            {error ? <p className={`input-errormessage-active`}>{errorMessage}</p> : <p className="input-errormessage">error message</p>}
         </>
     );
 }

@@ -44,7 +44,7 @@ function useFetch ( dataUrl, setData, setCatchError, setIsLoading, dependencies 
             console.log( 'Clean up function' );
             controller.abort();
         };
-    }, [dependencies] );
+    }, dependencies );
 
 }
 

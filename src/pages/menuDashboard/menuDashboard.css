@@ -1,0 +1,138 @@
+.menuDashboard {
+    padding: var(--padding-XXXL) 0;
+    background-color: var(--background-body);
+}
+.menuDashboard--innerbox {
+    gap: 50px;
+}
+
+.menuDashboard--titleTile {
+    max-width: calc(var(--basic-screen-width)/2);
+    align-self: center;
+    justify-content: center;
+    align-items: baseline;
+    text-align: center;
+}
+
+.menuDashboard--title-span{
+    font-weight: var(--font-weight-500);
+}
+
+.menuDashboard--acceptedcounter-span{
+    background-color: var(--color-primary-light);
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.menuDashboard--orderfieldswrapper {
+    flex: 0 0 400px;
+    flex-direction: row;
+    gap: var(--padding-large);
+    justify-content: space-evenly;
+}
+
+.menuDashboard--saveOrders{
+    align-self: end;
+}
+
+
+.menuDashboard--orderstile-component {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-medium);
+}
+
+.menuDashboard--orderstile-component .emptyInputField {
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: auto;
+}
+
+.menuDashboard--orderstile-component .inputCustomer {
+    flex: 0 0 85px;
+}
+.menuDashboard--orderstile-buttonwrapper {
+    align-self: end;
+}
+
+.menuDashboard--rightcontent{
+    flex: 0 0 calc((var(--basic-screen-width)/3)*2 - 20)px
+}
+
+.menuDashboard--righttile{
+    gap: var(--padding-medium);
+}
+.menuDashboard--table {
+    overflow: auto;
+    font-family: var(--font-body);
+    border-collapse: separate;
+    border-spacing: 10px 5px;
+}
+
+td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.trheader{
+    outline: none !important;
+}
+
+tbody tr:nth-child(odd) {
+    outline: var(--color-primary-light) solid 4px;
+    border-radius: 40px;
+
+}
+
+table p {
+    text-align: center;
+}
+
+.nameAndPicture--wrapper{
+    align-items: center;
+    gap: 10px;
+}
+
+.name {
+    width: 100px;
+}
+
+.deliveryWindow {
+    width: 108px;
+}
+
+.eta {
+    width: 160px;
+}
+
+.paid {
+    width: 100px;
+}
+
+.menuDashboard--table-profilePicture{
+    width: 60px;
+}
+
+.numberOfMenuText{
+    font-size: var(--fontsize-500);
+}
+
+.menuDashboard--table .checkbox {
+    width: 20px;
+}
+
+.etaInputTD, .paidInputTD  {
+    text-align: center;
+
+}
+
+.menuDashboard--righttile-buttonwrapper {
+    align-self: end;
+}
+
+
+
+
+

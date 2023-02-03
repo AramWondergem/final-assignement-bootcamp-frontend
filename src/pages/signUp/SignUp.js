@@ -17,7 +17,6 @@ function SignUp() {
     const [isLoading, setIsLoading] = useState(false);
     const [errorField, setErrorField] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null);
-    const dataUrlPost = '/users'
     const navigate = useNavigate();
 
     const jsConfetti = new JSConfetti()
@@ -45,11 +44,10 @@ function SignUp() {
             setCatchError(null);
 
             try {
-                const response = await axios.post(dataUrlPost, {
+                const response = await axios.post('/users', {
                     email: email,
                     username: username,
                     password: password,
-                    roles: ['USER']
                 });
 
                 console.log(response)
