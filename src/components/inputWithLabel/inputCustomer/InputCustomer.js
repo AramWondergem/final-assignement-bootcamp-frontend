@@ -7,7 +7,7 @@ function InputCustomer({reactHookForm, customerId,scrProfilePicture,name,email, 
 
     return (
         <label className={`inputCustomer flex-row ${className}`} htmlFor={customerId + "id"}>
-            <input
+            <input className="checkbox"
                 {...reactHookForm}
                 type="checkbox"
                 value={customerId}

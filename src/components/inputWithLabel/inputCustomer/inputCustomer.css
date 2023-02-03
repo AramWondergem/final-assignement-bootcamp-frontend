@@ -9,7 +9,7 @@
     overflow-x: hidden;
 }
 
-.inputCustomer input{
+.checkbox{
     appearance: none;
     flex: 0 0 20px;
     height: 20px;
@@ -19,12 +19,12 @@
     box-shadow: 6px 4px 0 var(--color-dark);
 }
 
-.inputCustomer input:hover{
+.checkbox:hover{
     background-color: var(--color-secondary);
 
 }
 
-.inputCustomer input:checked{
+.checkbox:checked{
     background-color: var(--color-primary);
 }
 

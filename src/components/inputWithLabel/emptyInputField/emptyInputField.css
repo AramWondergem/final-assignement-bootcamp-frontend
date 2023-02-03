@@ -8,7 +8,7 @@
 
 .emptyInputField {
     max-height: 60vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .emptyInputField::-webkit-scrollbar{
