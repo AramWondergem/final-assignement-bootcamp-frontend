@@ -28,6 +28,11 @@ function ShowMenu(props) {
     const [customerData, setCustomerData] = useState(null);
     const [isLoadingCustomerData, setIsLoadingCustomerData] = useState(false);
     const [errorCustomerData, setErrorCustomerData] = useState(null);
+    const [menuIsOrdered, setMenuIsOrdered] = useState(false);
+    const [orderData, setOrderData] = useState(null);
+    const watchNumberOfMenus = watch('numberOfMenus');
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [inProcessToOrder, setInProcessToOrder ] = useState(null);
 
     //function to show or close overlay
     function toggleOverlay(event) {
@@ -64,13 +69,49 @@ function ShowMenu(props) {
     useEffect(()=> console.log(menuData),[menuData]);
     useEffect(()=> console.log(customerData),[customerData]);
 
-    // function that loads the user data in the input fields
+
+    //useEffect to check if menu is ordered by the user everytime the customer data is updated
+    useEffect(() => {
+
+        if(customerData) {
+
+            const order = customerData.orders.find(order => order.menuId = id);
+
+            if (order) {
+                setMenuIsOrdered(true);
+                setOrderData(order)
+            } else {
+                setMenuIsOrdered(false);
+            }
+
+
+        }
+
+    }, [customerData])
+
+    useEffect(()=> {
+
+        if(customerData){
+           const total = menuData.priceMenu * watchNumberOfMenus
+            setTotalPrice(total.toLocaleString('nl',{style: 'currency', currency: 'EUR'}))
+        }
+
+    },[customerData,watchNumberOfMenus])
+
+    // function that loads the user data in the input fields or data of the order
     function setDefaultValues() {
 
-        Object.keys(customerData).map((key) => {
-            setValue(key, customerData[key])
-        });
+        if(menuIsOrdered) {
+            Object.keys(orderData).map((key) => {
+                setValue(key, orderData[key])
+            })
 
+        } else {
+
+            Object.keys(customerData).map((key) => {
+                setValue(key, customerData[key])
+            });
+        }
 
     }
 
@@ -80,7 +121,7 @@ function ShowMenu(props) {
             setDefaultValues()
         }
 
-    }, [customerData]);
+    }, [menuIsOrdered]);
 
     // function to show the delivery window in a nice format
 
@@ -112,6 +153,9 @@ function ShowMenu(props) {
                 return "❤👍❤";
         }
     }
+
+
+
 
 
 
@@ -216,9 +260,16 @@ function ShowMenu(props) {
                     <div className="showMenu--modal-buttonwrapper flex-row">
                         <MenuRow className="showMenu--modal-totalprice"
                             title="Total:"
-                            text="37,50 euro"/>
+                            text={totalPrice}/>
                         <Button onClick={toggleOverlay}>Cancel</Button>
-                        <Button onClick={toggleOverlay}>Confirm</Button>
+                        { menuIsOrdered ?
+                            <>
+                                <Button type="submit" onClick={()=> setInProcessToOrder('update')}>Update order</Button>
+                                <Button type="submit" onClick={()=> setInProcessToOrder('delete')}>Delete order</Button>
+                            </>
+                            :
+                            <Button type="submit" onClick={()=> setInProcessToOrder('order')}>Confirm</Button>
+                        }
                     </div>
                 </form>
             </Modal>
@@ -233,7 +284,7 @@ function ShowMenu(props) {
                                 dateStyle: "long"
                             }).format(new Date(menuData.orderDeadline)) : "Call the cook and ask for a deadline!") : "Call the cook and ask for a deadline!"}/>
                         <Button
-                            onClick={toggleOverlay}>Order</Button>
+                            onClick={toggleOverlay}>{menuIsOrdered ? 'Adjust order' : 'Order'} </Button>
                     </Tile>
                     <div className="showMenu--tilewrapper flex-wrap-row">
                         <Tile className="showMenu--tile1 flex-collumn">
@@ -310,7 +361,7 @@ function ShowMenu(props) {
                             </div>
                         </Tile>
                     </div>
-                    <Button className="showMenu--wiljeme-nuButton" type="button" onClick={toggleOverlay}>Wil je me-nu</Button>
+                    <Button className="showMenu--wiljeme-nuButton" type="button" onClick={toggleOverlay}>{menuIsOrdered ? 'Adjust order' : 'Wil je me-nu'}</Button>
                 </div>
             </main>
         </>

@@ -20,11 +20,22 @@ function Home(props) {
 
         menuArray.sort((a,b) => sortingOnDate(a.startDeliveryWindow,b.startDeliveryWindow));
 
+        let url= '';
+
+        if(cookOrCustomer === 'cook'){
+            url = `/menu/dashboard/`
+        } else if(cookOrCustomer==='customer'){
+            url = '/menu/'
+        } else {
+            console.log("There is something wrong with the url that is given to a LargeMenuButton. it could be that you did not fill in the argument cookOrCustomer correctly. It should be cook or customer")
+        }
+
         return menuArray.map((menu)=> {
             return <LargeMenuButton
                 key={`${cookOrCustomer + menu.id}`}
                 menuData={menu}
-                url={`/menu/${menu.id}`}/>
+                url={`${url}${menu.id}`}
+            pictureCook={menu.cook.profilePicture}/>
         })
     }
 

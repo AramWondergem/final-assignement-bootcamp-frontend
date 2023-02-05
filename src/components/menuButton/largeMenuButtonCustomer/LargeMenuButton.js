@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import MenuRow from "../../menuRow/MenuRow";
 import ProfilePicture from "../../profilePicture/ProfilePicture";
 
-function LargeMenuButton({url, menuData, children}) {
+function LargeMenuButton({url, menuData, children,pictureCook}) {
     const navigate = useNavigate();
     return (
         <button
@@ -25,7 +25,7 @@ function LargeMenuButton({url, menuData, children}) {
                 </div>
                 <div className="largeMenuButtonCustomer-cookwrapper flex-collumn">
                     <h3>The beste cook ever</h3>
-                    <ProfilePicture className="largeMenuButtonCustomer-profilePicture"/>
+                    <ProfilePicture className="largeMenuButtonCustomer-profilePicture" src={pictureCook}/>
                     <p>{menuData && menuData.cook.username ? menuData.cook.username: "mystery cook"}</p>
                 </div>
 
