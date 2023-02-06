@@ -24,6 +24,7 @@ function MenuDashBoard(props) {
     const [typeOfSubmit, setTypeOfSubmit] = useState(null);
     const [isLoadingSaveAndSend, setIsLoadingSaveAndSend] = useState(false);
     const [errorSaveAndSend, setErrorSaveAndSend] = useState(null);
+    const [acceptedCounter, setAcceptedCounter] = useState(0)
 
     // fetch menu data
     useFetch(`/menus/${id}`, setMenuData, setErrorMenuData, setIsLoadingMenuData, []);
@@ -182,6 +183,16 @@ function MenuDashBoard(props) {
                 break;
 
         }
+        if(menuData){
+            let acceptedMenus = 0;
+
+            if(acceptedList){
+                acceptedList.map(order => acceptedMenus+=order.numberOfMenus)
+            }
+            setAcceptedCounter(acceptedMenus + "/" + menuData.numberOfMenus);
+
+        }
+
 
         if (typeOfSubmit === "saveSelection" || typeOfSubmit === "sendSelection") {
 
@@ -261,12 +272,28 @@ function MenuDashBoard(props) {
 
 
             }
-            window.location.reload();
+            // window.location.reload();
         }
 
         reset();
 
     }
+
+    // function to show the number of accepted menu's
+    useEffect(()=>{
+        if(menuData){
+            let acceptedMenus = 0;
+
+            if(acceptedList){
+                acceptedList.map(order => acceptedMenus+=order.numberOfMenus)
+            }
+            setAcceptedCounter(acceptedMenus + "/" + menuData.numberOfMenus);
+
+        }
+
+
+
+    },[menuData,typeOfSubmit,acceptedList])
 
     useEffect(() => console.log(waitingList), [waitingList])
 
@@ -307,7 +334,7 @@ function MenuDashBoard(props) {
                             </div>
                             <div className="menuDashboard--declinedOrders menuDashboard--orderstile-component">
                                 <h2 className="menuDashboard--acceptedcounter">Accepted: <span
-                                    className="menuDashboard--acceptedcounter-span">12/20</span></h2>
+                                    className="menuDashboard--acceptedcounter-span">{acceptedCounter}</span></h2>
                                 <EmptyInputField>
                                     {menuData && createListOfInputs("acceptedList", acceptedList)}
                                 </EmptyInputField>
