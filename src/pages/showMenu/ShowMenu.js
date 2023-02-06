@@ -31,8 +31,9 @@ function ShowMenu(props) {
     const [menuIsOrdered, setMenuIsOrdered] = useState(false);
     const [orderData, setOrderData] = useState(null);
     const watchNumberOfMenus = watch('numberOfMenus');
-    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState("€ 0,00");
     const [inProcessToOrder, setInProcessToOrder ] = useState(null);
+    const [orderDeadlinePassed, setOrderDeadlinePassed] = useState(null);
 
     //function to show or close overlay
     function toggleOverlay(event) {
@@ -91,12 +92,12 @@ function ShowMenu(props) {
 
     useEffect(()=> {
 
-        if(customerData){
+        if(customerData && menuData && watchNumberOfMenus){
            const total = menuData.priceMenu * watchNumberOfMenus
             setTotalPrice(total.toLocaleString('nl',{style: 'currency', currency: 'EUR'}))
         }
 
-    },[customerData,watchNumberOfMenus])
+    },[customerData,watchNumberOfMenus, menuData,showOverlay])
 
     // function that loads the user data in the input fields or data of the order
     function setDefaultValues() {
@@ -154,8 +155,103 @@ function ShowMenu(props) {
         }
     }
 
+    //useEffect to check if orderdeadline is passed
+    useEffect(() => {
+
+        if(menuData && menuData.orderDeadline != null) {
+            setOrderDeadlinePassed(new Date(menuData.orderDeadline) < new Date());
+        } else if (menuData) {
+            setOrderDeadlinePassed("forgotten");
+        }
+    },[menuData])
+
+    //function to show the text on the order button depended on the orderdeadline and if ordered or not
+    function showOrderButton(orderText) {
+
+        if(!menuIsOrdered && !orderDeadlinePassed) {
+            return orderText
+        } else if(menuIsOrdered && !orderData.declined){
+            return "Adjust order"
+        }
 
 
+    }
+
+    //function to show to text in the header
+
+
+    function showHeaderText() {
+
+        if(orderDeadlinePassed === 'forgotten') {
+            return <MenuRow
+                title="Order deadline:"
+                text="Call the cook and ask for a deadline!"/>
+        } else {
+            if(!menuIsOrdered && !orderDeadlinePassed) {
+                return <MenuRow
+                    title="Order deadline:"
+                    text={menuData ? new Intl.DateTimeFormat("nl", {
+                        timeStyle: "short",
+                        dateStyle: "long"
+                    }).format(new Date(menuData.orderDeadline)) : "loading"}/>
+            } else if (!menuIsOrdered && orderDeadlinePassed) {
+                return <MenuRow
+                    title="Your are to late to order:"
+                    text="Maybe you can bribe the cook"/>
+            } else if(menuIsOrdered && !orderDeadlinePassed) {
+                return <MenuRow
+                    title="Order deadline:"
+                    text={menuData ? new Intl.DateTimeFormat("nl", {
+                        timeStyle: "short",
+                        dateStyle: "long"
+                    }).format(new Date(menuData.orderDeadline)) : "loading"}/>
+
+            } else if (menuIsOrdered && orderDeadlinePassed){
+                if(orderData.delivery === null && orderData.declined === false) {
+                    return<MenuRow
+                        title="Order status:"
+                        text="pending"/>
+                }
+                else if(orderData.declined){
+                    return <MenuRow
+                        title="Order status:"
+                        text="declined"/>
+
+                } else {
+                    if(new Date() > new Date(menuData.endDeliveryWindow) ) {
+
+                        const totalPrice = menuData.priceMenu * orderData.numberOfMenus;
+                        return <>
+                            <MenuRow
+                            title="Tikkie:"
+                            text={<a href={menuData.tikkieLink}>{menuData.tikkieLink}</a>}/>
+                            <MenuRow
+                                title="Total:"
+                                text={totalPrice.toLocaleString('nl',{style: 'currency', currency: 'EUR'})}/>
+                            </>
+                    } else if(orderData.delivery.eta !== null) {
+                        return <MenuRow
+                            title="Estimated time of arrival of your menu:"
+                            text={new Intl.DateTimeFormat("nl",{
+                                timeStyle: 'short'
+                            }).format(new Date(orderData.delivery.eta))}/>
+
+                    } else{
+                        return <MenuRow
+                            title="Order status:"
+                            text="accepted"/>
+                    }
+                }
+            }
+        }
+    }
+
+
+// check if orderdata is passed --> when no order, no buttons and text order deadline is passed
+    // when not after order deadline --> chech if ordered of not --> show buttons
+    // when after order deadline and ordered --> button's to adapt order
+
+    //
 
 
 
@@ -277,14 +373,10 @@ function ShowMenu(props) {
             <main className="showMenu outerbox">
                 <div className="showMenu--innerbox innerbox flex-collumn">
                     <Tile className="showMenu--information-tile" type="yellow" flexCollumn={true}>
-                        <MenuRow
-                            title="Order deadline:"
-                            text={menuData ? (menuData.orderDeadline ? new Intl.DateTimeFormat("nl", {
-                                timeStyle: "short",
-                                dateStyle: "long"
-                            }).format(new Date(menuData.orderDeadline)) : "Call the cook and ask for a deadline!") : "Call the cook and ask for a deadline!"}/>
-                        <Button
-                            onClick={toggleOverlay}>{menuIsOrdered ? 'Adjust order' : 'Order'} </Button>
+                        {isLoadingCustomerData ? "loading..." : showHeaderText()}
+                        {!isLoadingMenuData && !isLoadingCustomerData && <>{!menuIsOrdered && orderDeadlinePassed && orderData &&!orderData.declined ? <></> : <Button
+                            onClick={toggleOverlay}>{showOrderButton("Order")} </Button> }</>}
+
                     </Tile>
                     <div className="showMenu--tilewrapper flex-wrap-row">
                         <Tile className="showMenu--tile1 flex-collumn">
@@ -335,7 +427,7 @@ function ShowMenu(props) {
                         <Tile className="showMenu--tile3 flex-collumn">
                             <div className="showMenu--tile3-cookwrapper flex-collumn">
                                 <h3>The beste cook ever</h3>
-                                <ProfilePicture/>
+                                <ProfilePicture src={menuData && menuData.cook.profilePicture}/>
                                 <p>{menuData && menuData.cook.username ? menuData.cook.username: "mystery cook"}</p>
                             </div>
                             <div className="showMenu--tile3-menuRowWrapper flex-collumn">
@@ -361,7 +453,10 @@ function ShowMenu(props) {
                             </div>
                         </Tile>
                     </div>
-                    <Button className="showMenu--wiljeme-nuButton" type="button" onClick={toggleOverlay}>{menuIsOrdered ? 'Adjust order' : 'Wil je me-nu'}</Button>
+
+                    {!isLoadingMenuData && !isLoadingCustomerData && <>{!menuIsOrdered && orderDeadlinePassed && orderData &&!orderData.declined ? <></> :<Button className="showMenu--wiljeme-nuButton" type="button" onClick={toggleOverlay}>{showOrderButton("Wil je me-nu")}</Button>}</>}
+
+
                 </div>
             </main>
         </>

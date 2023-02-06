@@ -88,6 +88,7 @@
 
 .showMenu--modal-inputwrapper{
     gap: var(--padding-XXXL);
+    justify-content: space-evenly;
 }
 
 .showMenu--modal-deliverywindowtitle {
@@ -103,11 +104,12 @@
     align-self: end;
     align-items: baseline;
     padding: var(--padding-small);
+    justify-content: flex-end;
 }
 
-.showMenu--modal-totalprice {
-    flex: 0 0 150px;
-}
+/*.showMenu--modal-totalprice {*/
+/*    flex: 0 0 150px;*/
+/*}*/
 
 .showMenu--wiljeme-nuButton {
     align-self: end;
