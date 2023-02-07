@@ -1,6 +1,20 @@
 import React from "react";
 
-function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, classNameInput, error, errorMessage, reactHookForm, accept, placeholder, step}) {
+function InputWithLabelHookForm({
+                                    textarea,
+                                    row,
+                                    classNameLabel,
+                                    id,
+                                    label,
+                                    type,
+                                    classNameInput,
+                                    error,
+                                    errorMessage,
+                                    reactHookForm,
+                                    accept,
+                                    placeholder,
+                                    step
+                                }) {
     return (
         <>
             <label className={`label-component ${classNameLabel}`} htmlFor={id}><h3>{label}</h3></label>
@@ -10,7 +24,7 @@ function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, cla
                     id={id}
                     rows={row}
                     placeholder={placeholder}
-                    {...reactHookForm }
+                    {...reactHookForm}
 
 
                 />
@@ -22,11 +36,12 @@ function InputWithLabelHookForm({textarea,row, classNameLabel,id,label,type, cla
                     accept={accept}
                     placeholder={placeholder}
                     step={step}
-                   {...reactHookForm}
+                    {...reactHookForm}
 
 
-                   />}
-            {error ? <p className={`input-errormessage-active`}>{errorMessage}</p> : <p className="input-errormessage">error message</p>}
+                />}
+            {error ? <p className={`input-errormessage-active`}>{errorMessage}</p> :
+                <p className="input-errormessage">error message</p>}
         </>
     );
 }

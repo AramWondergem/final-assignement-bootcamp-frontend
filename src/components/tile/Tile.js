@@ -1,7 +1,7 @@
 import './tile.css'
 import React from 'react';
 
-function Tile({children,className, type, flexCollumn}) {
+function Tile({children, className, type, flexCollumn}) {
     return (
         <div className={`${className} tile tile-${type} tile-${flexCollumn ? "flex-collumn" : "flex-row"}`}>
             {children}

@@ -4,7 +4,7 @@
     padding: var(--padding-small) 0;
 }
 
-.radioInput label{
+.radioInput label {
     font-weight: var(--font-weight-600);
     align-self: flex-end;
 
@@ -23,11 +23,11 @@
 }
 
 
-
-.input-component-radio:hover{
+.input-component-radio:hover {
     background-color: var(--color-secondary);
 
 }
+
 .input-component-radio:checked {
     background-color: var(--color-primary);
 }

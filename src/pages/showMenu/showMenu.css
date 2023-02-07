@@ -7,7 +7,7 @@
     gap: var(--padding-XXXL);
 }
 
-.showMenu--information-tile{
+.showMenu--information-tile {
     align-self: center;
 
     align-items: center;
@@ -25,7 +25,7 @@
     flex: 0 0 350px;
 }
 
-.showMenu--tile1{
+.showMenu--tile1 {
     justify-content: center;
     align-items: center;
 }
@@ -41,7 +41,7 @@
     gap: var(--padding-small);
 }
 
-.showMenu--tile2-title{
+.showMenu--tile2-title {
     align-self: center;
     text-align: center;
 }
@@ -55,11 +55,11 @@
     align-items: start;
 }
 
-.showMenu--tile2-menuRowWrapper h3{
+.showMenu--tile2-menuRowWrapper h3 {
     flex: 0 0 80px;
 }
 
-.showMenu--tile2-menuRowWrapper p{
+.showMenu--tile2-menuRowWrapper p {
     flex: 0 0 195px;
 }
 
@@ -86,7 +86,7 @@
     gap: var(--padding-medium);
 }
 
-.showMenu--modal-inputwrapper{
+.showMenu--modal-inputwrapper {
     gap: var(--padding-XXXL);
     justify-content: space-evenly;
 }
@@ -95,7 +95,7 @@
     align-self: center;
 }
 
-.showMenu--modal-deliverywindowwrapper{
+.showMenu--modal-deliverywindowwrapper {
     justify-content: space-between;
     gap: var(--padding-medium);
 }

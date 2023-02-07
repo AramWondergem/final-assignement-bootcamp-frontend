@@ -18,6 +18,8 @@ function Login() {
     const dataUrlPost = '/auth'
     const navigate = useNavigate();
 
+    //fucntion to trigger the confetti
+
     const jsConfetti = new JSConfetti()
 
     function onClickConfetti() {

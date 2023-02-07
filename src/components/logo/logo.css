@@ -1,4 +1,4 @@
-.logo{
+.logo {
     white-space: nowrap;
     align-items: center;
     justify-content: center;
@@ -13,12 +13,11 @@
 }
 
 .logo * {
-    text-shadow:
-            -1px -1px 0 var(--color-primary-light),
-            1px -1px 0 var(--color-primary-light),
-            -1px 1px 0 var(--color-primary-light),
-            1px 1px 0 var(--color-primary-light),
-            4px 4px var(--color-primary);
+    text-shadow: -1px -1px 0 var(--color-primary-light),
+    1px -1px 0 var(--color-primary-light),
+    -1px 1px 0 var(--color-primary-light),
+    1px 1px 0 var(--color-primary-light),
+    4px 4px var(--color-primary);
 }
 
 

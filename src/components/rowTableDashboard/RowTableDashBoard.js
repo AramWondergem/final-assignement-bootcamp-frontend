@@ -18,20 +18,22 @@ function RowTableDashBoard({order, reactHookFormTime, reactHookFormPaid, checked
                 <td><p>{order.allergies}</p></td>
                 <td><p>{order.allergiesExplanation}
                 </p></td>
-                <td><p className="menuDashboard--table--timewindow">{showDeliveryWindowBasedOnTime(order.startDeliveryWindow,order.endDeliveryWindow)}</p></td>
+                <td><p
+                    className="menuDashboard--table--timewindow">{showDeliveryWindowBasedOnTime(order.startDeliveryWindow, order.endDeliveryWindow)}</p>
+                </td>
                 <td><p>{order.streetAndNumber}</p></td>
                 <td><p>{order.comments}
                 </p></td>
                 <td className="etaInputTD">
                     <input className="input-component"
                            type="time"
-                        {...reactHookFormTime}
+                           {...reactHookFormTime}
                     /></td>
                 <td className="paidInputTD">
                     <input className="checkbox"
                            type="checkbox"
                            defaultChecked={checked}
-                        {...reactHookFormPaid}/></td>
+                           {...reactHookFormPaid}/></td>
             </tr>
             <tr key={`rowWithoutInformation${order.id}`}>
                 <td></td>

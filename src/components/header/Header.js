@@ -9,7 +9,7 @@ import ProfilePicture from "../profilePicture/ProfilePicture";
 
 function Header(props) {
 
-    const {logout,user} = useContext(AuthContext);
+    const {logout, user} = useContext(AuthContext);
 
     return (
         <header className="header outerbox">
@@ -41,7 +41,7 @@ function Header(props) {
                         <Button type="button"
                                 className="header--button"
                                 onClick={logout}
-                        color="pink">
+                                color="pink">
                             Log out
                         </Button>
                     </div>

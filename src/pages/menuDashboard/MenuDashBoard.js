@@ -31,7 +31,6 @@ function MenuDashBoard(props) {
     const [errorTikkieLink, setErrorTikkieLink] = useState(null);
 
 
-
     // fetch menu data
     useFetch(`/menus/${id}`, setMenuData, setErrorMenuData, setIsLoadingMenuData, []);
 
@@ -195,7 +194,7 @@ function MenuDashBoard(props) {
             setIsLoadingSaveAndSend(true);
             setErrorSaveAndSend(null);
 
-            try{
+            try {
                 acceptedList.map(async (order) => {
 
                     const responsePostOrder = await axios.put(`/orders/accept/${order.id}`, null, {
@@ -223,26 +222,15 @@ function MenuDashBoard(props) {
                     console.log("order declined with order id: " + order.id);
 
 
-
                 })
 
-                // // Fetch the response
-                // const response = await axios.get( `/menus/${id}`, { headers: {
-                //         "Content-Type": "application/json",
-                //         Authorization: `${localStorage.getItem('token')}`,
-                //
-                //     }})
-                // console.log(response.data);
-                //
-                // setMenuData( response.data );
 
                 setFinishedWithAccepting(!finishedWithAccepting);
 
-            }catch (error) {
+            } catch (error) {
                 console.log(error)
                 setErrorSaveAndSend(error);
             }
-
 
 
             if (typeOfSubmit === "sendSelection") {
@@ -283,9 +271,9 @@ function MenuDashBoard(props) {
 
         }
 
-        if(typeOfSubmit === "saveTable" || typeOfSubmit === "sendETA") {
+        if (typeOfSubmit === "saveTable" || typeOfSubmit === "sendETA") {
 
-            setIsLoadingSaveAndSend( true );
+            setIsLoadingSaveAndSend(true);
 
             try {
 
@@ -293,7 +281,7 @@ function MenuDashBoard(props) {
 
                     let etaTime = null
 
-                    if(data[`time:${order.delivery.id}`]) {
+                    if (data[`time:${order.delivery.id}`]) {
                         const menuDeliveryDate = menuData.startDeliveryWindow.split('T');
 
                         etaTime = `${menuDeliveryDate[0]}T${data[`time:${order.delivery.id}`]}`
@@ -314,7 +302,7 @@ function MenuDashBoard(props) {
 
                     console.log(responseUpdateDelivery);
                     console.log("delivery updated with id: " + order.id);
-                    if(typeOfSubmit === "sendETA") {
+                    if (typeOfSubmit === "sendETA") {
 
                         const responseSendETA = await axios.put(`/deliveries/eta/${order.delivery.id}`, null, {
                             headers: {
@@ -334,9 +322,9 @@ function MenuDashBoard(props) {
                 setFinishedWithAccepting(!finishedWithAccepting);
 
 
-            } catch ( err ) {
+            } catch (err) {
                 console.log(err)
-                setErrorMenuData( err );
+                setErrorMenuData(err);
 
             }
 
@@ -350,6 +338,8 @@ function MenuDashBoard(props) {
         reset();
 
     }
+
+    //useEffect to trigger the fetch of menuData after saving the accepted and declined orders
 
     useEffect(() => {
 
@@ -377,8 +367,7 @@ function MenuDashBoard(props) {
         getMenuData()
 
 
-    },[finishedWithAccepting])
-
+    }, [finishedWithAccepting])
 
 
     // function to show the number of accepted menu's at the start of the page render
@@ -397,7 +386,7 @@ function MenuDashBoard(props) {
     }, [menuData, typeOfSubmit, acceptedList])
 
     // function to show the rows in the table
-    useEffect(()=>{
+    useEffect(() => {
         console.log(menuData)
 
         let acceptedListInside;
@@ -418,7 +407,7 @@ function MenuDashBoard(props) {
         function showRows() {
             const list = acceptedListInside;
 
-            if(list) {
+            if (list) {
 
                 list.sort((a, b) => {
 
@@ -460,7 +449,7 @@ function MenuDashBoard(props) {
 
         showRows()
 
-        if(acceptedListInside) {
+        if (acceptedListInside) {
 
             acceptedListInside.map((order) => {
                 if (order.delivery.eta) {
@@ -474,8 +463,9 @@ function MenuDashBoard(props) {
         }
 
 
+    }, [menuData])
 
-    },[menuData])
+    //function when you click the send tikkie link button
 
     async function sendTikkielink(event) {
         event.preventDefault();
@@ -501,9 +491,6 @@ function MenuDashBoard(props) {
         setLoadingTikkieLink(false)
 
     }
-
-
-
 
 
     return (
@@ -614,7 +601,7 @@ function MenuDashBoard(props) {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    { tableRows && tableRows.map((row)=> row)}
+                                    {tableRows && tableRows.map((row) => row)}
 
                                     </tbody>
                                 </table>
@@ -640,7 +627,7 @@ function MenuDashBoard(props) {
                                 </Button>
                                 <Button
                                     type="submit"
-                                onClick={() => navigate(`/create/${id}`)}>
+                                    onClick={() => navigate(`/create/${id}`)}>
                                     Adjust menu
                                 </Button>
 

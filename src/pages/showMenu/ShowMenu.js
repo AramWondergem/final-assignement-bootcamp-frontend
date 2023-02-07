@@ -39,6 +39,8 @@ function ShowMenu(props) {
     const [isLoadingPostOrder, setIsLoadingPostOrder] = useState(false);
     const [errorPostOrder, setErrorPostOrder] = useState(null);
 
+    useEffect(()=> console.log(orderData),[orderData]);
+
     //function to show or close overlay
     function toggleOverlay(event) {
         event.preventDefault();
@@ -71,16 +73,16 @@ function ShowMenu(props) {
     // fetch menu data
     useFetch(`/menus/${id}`, setMenuData, setErrorMenuData, setIsLoadingMenuData, []);
 
-    useEffect(() => console.log(menuData), [menuData]);
-    useEffect(() => console.log(customerData), [customerData]);
-
 
     //useEffect to check if menu is ordered by the user everytime the customer data is updated
     useEffect(() => {
 
         if (menuData && customerData) {
 
-            const order = menuData.orders.find(order => order.customer.id = customerData.id);
+            console.log(menuData);
+            console.log(customerData);
+
+            let order = menuData.orders.find((order) => order.customer.id === customerData.id);
             console.log(order);
 
             if (order) {
@@ -90,11 +92,11 @@ function ShowMenu(props) {
             } else {
                 setMenuIsOrdered(false);
             }
-
+            order = null
 
         }
 
-    }, [menuData,customerData])
+    }, [menuData, customerData])
 
     useEffect(() => {
 
@@ -249,9 +251,9 @@ function ShowMenu(props) {
                 orderCustomerId: customerData.id,
                 numberOfMenus: data.numberOfMenus,
                 allergies: data.allergies,
-                allergiesExplanation: data.allergiesExplanation ,
-                startDeliveryWindow: data.startDeliveryWindow ?  data.startDeliveryWindow : null,
-                endDeliveryWindow: data.endDeliveryWindow? data.endDeliveryWindow : null,
+                allergiesExplanation: data.allergiesExplanation,
+                startDeliveryWindow: data.startDeliveryWindow ? data.startDeliveryWindow : null,
+                endDeliveryWindow: data.endDeliveryWindow ? data.endDeliveryWindow : null,
                 streetAndNumber: data.streetAndNumber,
                 zipcode: data.zipcode,
                 city: data.city,
@@ -287,9 +289,9 @@ function ShowMenu(props) {
                 orderCustomerId: customerData.id,
                 numberOfMenus: data.numberOfMenus,
                 allergies: data.allergies,
-                allergiesExplanation: data.allergiesExplanation ,
-                startDeliveryWindow: data.startDeliveryWindow ?  data.startDeliveryWindow : null,
-                endDeliveryWindow: data.endDeliveryWindow? data.endDeliveryWindow : null,
+                allergiesExplanation: data.allergiesExplanation,
+                startDeliveryWindow: data.startDeliveryWindow ? data.startDeliveryWindow : null,
+                endDeliveryWindow: data.endDeliveryWindow ? data.endDeliveryWindow : null,
                 streetAndNumber: data.streetAndNumber,
                 zipcode: data.zipcode,
                 city: data.city,
@@ -319,6 +321,7 @@ function ShowMenu(props) {
 
     }
 
+    //function to delete order
     async function deleteOrder() {
         setErrorPostOrder(null);
         setIsLoadingPostOrder(true);
@@ -341,12 +344,6 @@ function ShowMenu(props) {
         setIsLoadingPostOrder(false);
 
     }
-
-
-// check if orderdata is passed --> when no order, no buttons and text order deadline is passed
-    // when after order deadline and ordered --> button's to adapt order
-
-    //
 
 
     return (
@@ -447,8 +444,8 @@ function ShowMenu(props) {
                                 reactHookForm={register("comments")}/>
                         </div>
                     </div>
-                    { errorPostOrder && <MenuRow title="Error"
-                    text={errorPostOrder.response.data.message}/>}
+                    {errorPostOrder && <MenuRow title="Error"
+                                                text={errorPostOrder.response.data.message}/>}
                     <div className="showMenu--modal-buttonwrapper flex-row">
                         <MenuRow className="showMenu--modal-totalprice"
                                  title="Total:"
@@ -456,13 +453,13 @@ function ShowMenu(props) {
                         <Button onClick={toggleOverlay}>Cancel</Button>
                         {menuIsOrdered ?
                             <>
-                                <Button type="submit" >Update
+                                <Button type="submit">Update
                                     order</Button>
                                 <Button type="button" onClick={deleteOrder}>Delete
                                     order</Button>
                             </>
                             :
-                            <Button type="submit" >Confirm</Button>
+                            <Button type="submit">Confirm</Button>
                         }
                     </div>
                 </form>

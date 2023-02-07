@@ -11,24 +11,21 @@ import ShowMenu from "./pages/showMenu/ShowMenu";
 import MenuDashBoard from "./pages/menuDashboard/MenuDashBoard";
 
 
-
-
-
 function App() {
-    const { isAuth } = useContext(AuthContext);
-  return (
-    <>
-        <Routes>
-            <Route exact path='/' element={ isAuth ? <Home/> : <Navigate to="/login"/>}/>
-            <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
-            <Route exact path='/signup' element={<SignUp/>}/>
-            <Route exact path='/profile' element={isAuth ?<Profile/> : <Navigate to="/login"/> }/>
-            <Route exact path='/create/:id' element={ isAuth ? <CreateMenu/>: <Navigate to="/login"/> }/>
-            <Route exact path='/menu/:id' element={ isAuth ? <ShowMenu/>: <Navigate to="/login"/> }/>
-            <Route exact path='/menu/dashboard/:id' element={ isAuth ? <MenuDashBoard/>: <Navigate to="/login"/> }/>
-        </Routes>
-    </>
-  );
+    const {isAuth} = useContext(AuthContext);
+    return (
+        <>
+            <Routes>
+                <Route exact path='/' element={isAuth ? <Home/> : <Navigate to="/login"/>}/>
+                <Route exact path='/login' element={!isAuth ? <Login/> : <Navigate to="/"/>}/>
+                <Route exact path='/signup' element={<SignUp/>}/>
+                <Route exact path='/profile' element={isAuth ? <Profile/> : <Navigate to="/login"/>}/>
+                <Route exact path='/create/:id' element={isAuth ? <CreateMenu/> : <Navigate to="/login"/>}/>
+                <Route exact path='/menu/:id' element={isAuth ? <ShowMenu/> : <Navigate to="/login"/>}/>
+                <Route exact path='/menu/dashboard/:id' element={isAuth ? <MenuDashBoard/> : <Navigate to="/login"/>}/>
+            </Routes>
+        </>
+    );
 }
 
 export default App;

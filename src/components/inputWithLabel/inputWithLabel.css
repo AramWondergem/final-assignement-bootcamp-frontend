@@ -12,7 +12,6 @@
 }
 
 
-
 .error-field {
     border-color: var(--color-primary);
 }
@@ -21,7 +20,7 @@
     padding-left: var(--padding-medium);
     margin-top: var(--padding-small);
     margin-bottom: var(--padding-small);
-    color: transparent ;
+    color: transparent;
     font-size: var(--fontsize-300);
 
 }
