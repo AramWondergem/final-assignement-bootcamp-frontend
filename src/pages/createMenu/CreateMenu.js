@@ -298,7 +298,7 @@ function CreateMenu(props) {
                     toggleSendMenu(false);
                 }
 
-                navigate(`/menu/${menuIdForNavigation}`);
+                navigate(`/menu/dashboard/${menuIdForNavigation}`);
             } catch (error){
                 console.log(error)
                 setErrorSaveMenu(error)

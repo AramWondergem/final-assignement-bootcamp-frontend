@@ -5,12 +5,10 @@ import Tile from "../../components/tile/Tile";
 import EmptyInputField from "../../components/inputWithLabel/emptyInputField/EmptyInputField";
 import Button from "../../components/button/Button";
 import InputCustomerDashboard from "../../components/inputWithLabel/inputCustomer/InputCustomerDashboard";
-import ProfilePicture from "../../components/profilePicture/ProfilePicture";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import useFetch from "../../customHooks/useFetch";
 import axios from "axios";
-import showDeliveryWindowBasedOnTime from "../../helpers/showDeliveryWindowBasedOnTime";
 import RowTableDashBoard from "../../components/rowTableDashboard/RowTableDashBoard";
 
 function MenuDashBoard(props) {
@@ -28,14 +26,14 @@ function MenuDashBoard(props) {
     const [acceptedCounter, setAcceptedCounter] = useState(0)
     const [tableRows, setTableRows] = useState(null);
     const [finishedWithAccepting, setFinishedWithAccepting] = useState(false);
+    const navigate = useNavigate();
+    const [loadingTikkieLink, setLoadingTikkieLink] = useState(false);
+    const [errorTikkieLink, setErrorTikkieLink] = useState(null);
+
+
 
     // fetch menu data
     useFetch(`/menus/${id}`, setMenuData, setErrorMenuData, setIsLoadingMenuData, []);
-
-    useEffect(() => {
-
-
-    }, [menuData]);
 
 
     //function to return the inputfields for the first Tile
@@ -228,15 +226,15 @@ function MenuDashBoard(props) {
 
                 })
 
-                // Fetch the response
-                const response = await axios.get( `/menus/${id}`, { headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `${localStorage.getItem('token')}`,
-
-                    }})
-                console.log(response.data);
-
-                setMenuData( response.data );
+                // // Fetch the response
+                // const response = await axios.get( `/menus/${id}`, { headers: {
+                //         "Content-Type": "application/json",
+                //         Authorization: `${localStorage.getItem('token')}`,
+                //
+                //     }})
+                // console.log(response.data);
+                //
+                // setMenuData( response.data );
 
                 setFinishedWithAccepting(!finishedWithAccepting);
 
@@ -284,6 +282,70 @@ function MenuDashBoard(props) {
             }
 
         }
+
+        if(typeOfSubmit === "saveTable" || typeOfSubmit === "sendETA") {
+
+            setIsLoadingSaveAndSend( true );
+
+            try {
+
+                acceptedList.map(async (order) => {
+
+                    let etaTime = null
+
+                    if(data[`time:${order.delivery.id}`]) {
+                        const menuDeliveryDate = menuData.startDeliveryWindow.split('T');
+
+                        etaTime = `${menuDeliveryDate[0]}T${data[`time:${order.delivery.id}`]}`
+
+                    }
+
+
+                    const datajson = {
+                        paid: data[`paid:${order.delivery.id}`],
+                        eta: etaTime
+                    }
+                    const responseUpdateDelivery = await axios.put(`/deliveries/${order.delivery.id}`, datajson, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${localStorage.getItem('token')}`
+                        }
+                    });
+
+                    console.log(responseUpdateDelivery);
+                    console.log("delivery updated with id: " + order.id);
+                    if(typeOfSubmit === "sendETA") {
+
+                        const responseSendETA = await axios.put(`/deliveries/eta/${order.delivery.id}`, null, {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `${localStorage.getItem('token')}`
+                            }
+                        });
+
+                        console.log(responseSendETA);
+                        console.log("eta send of delivery with  id: " + order.id);
+
+                    }
+
+
+                })
+
+                setFinishedWithAccepting(!finishedWithAccepting);
+
+
+            } catch ( err ) {
+                console.log(err)
+                setErrorMenuData( err );
+
+            }
+
+
+            setIsLoadingSaveAndSend(false);
+
+
+        }
+
 
         reset();
 
@@ -378,7 +440,7 @@ function MenuDashBoard(props) {
                     return etaA - etaB
                 });
 
-                setTableRows(list.map((order) => {
+                const array = list.map((order) => {
                     return <RowTableDashBoard
                         key={`orderRow${order.id}`}
                         order={order}
@@ -386,22 +448,24 @@ function MenuDashBoard(props) {
                         reactHookFormPaid={register(`paid:${order.delivery.id}`)}
                         value="checked"
                         checked={order.delivery.paid === true}/>
-                }))
+                })
+
+                console.log(array)
+
+                setTableRows(array)
             }
 
         }
 
 
-        setTableRows(showRows())
+        showRows()
+
         if(acceptedListInside) {
 
             acceptedListInside.map((order) => {
-                console.log("in");
                 if (order.delivery.eta) {
 
-
                     const etaTime = new Date(order.delivery.eta).toLocaleTimeString();
-                    console.log(etaTime);
 
                     setValue(`time:${order.delivery.id}`, etaTime)
 
@@ -413,6 +477,30 @@ function MenuDashBoard(props) {
 
     },[menuData])
 
+    async function sendTikkielink(event) {
+        event.preventDefault();
+
+        setLoadingTikkieLink(true);
+        setErrorTikkieLink(null);
+
+        try {
+            const responseTikkieLink = await axios.put(`/menus/send/tikkie/${menuData.id}`, null, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${localStorage.getItem('token')}`
+                }
+            });
+
+            console.log(responseTikkieLink);
+            console.log("tikkie link is sent");
+
+        } catch (error) {
+            console.log(error)
+            setErrorTikkieLink(error);
+        }
+        setLoadingTikkieLink(false)
+
+    }
 
 
 
@@ -527,137 +615,6 @@ function MenuDashBoard(props) {
                                     </thead>
                                     <tbody>
                                     { tableRows && tableRows.map((row)=> row)}
-                                    {/*<tr>*/}
-                                    {/*    <th scope="tablerow">*/}
-                                    {/*        <div className="nameAndPicture--wrapper flex-collumn"><ProfilePicture*/}
-                                    {/*            className="menuDashboard--table-profilePicture"/> <p>Tiger the cat</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </th>*/}
-                                    {/*    <td><p className="numberOfMenuText">3x</p></td>*/}
-                                    {/*    <td><p>pinda</p></td>*/}
-                                    {/*    <td><p>Ik ga dood als ik een pinda eet. Na een sporen element zwel ik al tot een*/}
-                                    {/*        ballon.*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td><p>17:00 - 18:00</p></td>*/}
-                                    {/*    <td><p>Drossaard 17</p></td>*/}
-                                    {/*    <td><p>Je kan het bij de deur neerzetten als ik niet thuis ben. Of bel aan bij*/}
-                                    {/*        de*/}
-                                    {/*        buren*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td className="etaInputTD"><input className="input-component" type="time"/></td>*/}
-                                    {/*    <td className="paidInputTD"><input className="checkbox" type="checkbox"/></td>*/}
-
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <td></td>*/}
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <th scope="tablerow">*/}
-                                    {/*        <div className="nameAndPicture--wrapper flex-collumn"><ProfilePicture*/}
-                                    {/*            className="menuDashboard--table-profilePicture"/> <p>Tiger the cat</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </th>*/}
-                                    {/*    <td><p className="numberOfMenuText">3x</p></td>*/}
-                                    {/*    <td><p>pinda</p></td>*/}
-                                    {/*    <td><p>Ik ga dood als ik een pinda eet. Na een sporen element zwel ik al tot een*/}
-                                    {/*        ballon.*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td><p>17:00 - 18:00</p></td>*/}
-                                    {/*    <td><p>Drossaard 17</p></td>*/}
-                                    {/*    <td><p>Je kan het bij de deur neerzetten als ik niet thuis ben. Of bel aan bij*/}
-                                    {/*        de*/}
-                                    {/*        buren*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td className="etaInputTD"><input className="input-component" type="time"/></td>*/}
-                                    {/*    <td className="paidInputTD"><input className="checkbox" type="checkbox"/></td>*/}
-
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <td></td>*/}
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <th scope="tablerow">*/}
-                                    {/*        <div className="nameAndPicture--wrapper flex-collumn"><ProfilePicture*/}
-                                    {/*            className="menuDashboard--table-profilePicture"/> <p>Tiger the cat</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </th>*/}
-                                    {/*    <td><p className="numberOfMenuText">3x</p></td>*/}
-                                    {/*    <td><p>pinda</p></td>*/}
-                                    {/*    <td><p>Ik ga dood als ik een pinda eet. Na een sporen element zwel ik al tot een*/}
-                                    {/*        ballon.*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td><p>17:00 - 18:00</p></td>*/}
-                                    {/*    <td><p>Drossaard 17</p></td>*/}
-                                    {/*    <td><p>Je kan het bij de deur neerzetten als ik niet thuis ben. Of bel aan bij*/}
-                                    {/*        de*/}
-                                    {/*        buren*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td className="etaInputTD"><input className="input-component" type="time"/></td>*/}
-                                    {/*    <td className="paidInputTD"><input className="checkbox" type="checkbox"/></td>*/}
-
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <td></td>*/}
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <th scope="tablerow">*/}
-                                    {/*        <div className="nameAndPicture--wrapper flex-collumn"><ProfilePicture*/}
-                                    {/*            className="menuDashboard--table-profilePicture"/> <p>Tiger the cat</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </th>*/}
-                                    {/*    <td><p className="numberOfMenuText">3x</p></td>*/}
-                                    {/*    <td><p>pinda</p></td>*/}
-                                    {/*    <td><p>Ik ga dood als ik een pinda eet. Na een sporen element zwel ik al tot een*/}
-                                    {/*        ballon.*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td><p>17:00 - 18:00</p></td>*/}
-                                    {/*    <td><p>Drossaard 17</p></td>*/}
-                                    {/*    <td><p>Je kan het bij de deur neerzetten als ik niet thuis ben. Of bel aan bij*/}
-                                    {/*        de*/}
-                                    {/*        buren*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td className="etaInputTD"><input className="input-component" type="time"/></td>*/}
-                                    {/*    <td className="paidInputTD"><input className="checkbox" type="checkbox"/></td>*/}
-
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <td></td>*/}
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <th scope="tablerow">*/}
-                                    {/*        <div className="nameAndPicture--wrapper flex-collumn"><ProfilePicture*/}
-                                    {/*            className="menuDashboard--table-profilePicture"/> <p>Tiger the cat</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </th>*/}
-                                    {/*    <td><p className="numberOfMenuText">3x</p></td>*/}
-                                    {/*    <td><p>pinda</p></td>*/}
-                                    {/*    <td><p>Ik ga dood als ik een pinda eet. Na een sporen element zwel ik al tot een*/}
-                                    {/*        ballon.*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td><p>17:00 - 18:00</p></td>*/}
-                                    {/*    <td><p>Drossaard 17</p></td>*/}
-                                    {/*    <td><p>Je kan het bij de deur neerzetten als ik niet thuis ben. Of bel aan bij*/}
-                                    {/*        de*/}
-                                    {/*        buren*/}
-                                    {/*    </p></td>*/}
-                                    {/*    <td className="etaInputTD"><input className="input-component" type="time"/></td>*/}
-                                    {/*    <td className="paidInputTD"><input className="checkbox" type="checkbox"/></td>*/}
-
-
-                                    {/*</tr>*/}
-                                    {/*<tr>*/}
-                                    {/*    <td></td>*/}
-
-                                    {/*</tr>*/}
-
 
                                     </tbody>
                                 </table>
@@ -666,19 +623,24 @@ function MenuDashBoard(props) {
 
                             <div className="menuDashboard--righttile-buttonwrapper">
                                 <Button
-                                    type="submit">
+                                    type="submit"
+                                    onClick={() => setTypeOfSubmit("sendETA")}>
                                     Send ETA
                                 </Button>
                                 <Button
-                                    type="submit">
+                                    type="submit"
+                                    onClick={() => setTypeOfSubmit("saveTable")}>
                                     Save
                                 </Button>
                                 <Button
-                                    type="submit">
+                                    type="button"
+                                    onClick={sendTikkielink}
+                                >
                                     Send Tikkielink
                                 </Button>
                                 <Button
-                                    type="submit">
+                                    type="submit"
+                                onClick={() => navigate(`/create/${id}`)}>
                                     Adjust menu
                                 </Button>
 

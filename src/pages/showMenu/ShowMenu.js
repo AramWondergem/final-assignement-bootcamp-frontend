@@ -78,11 +78,13 @@ function ShowMenu(props) {
     //useEffect to check if menu is ordered by the user everytime the customer data is updated
     useEffect(() => {
 
-        if (customerData) {
+        if (menuData && customerData) {
 
-            const order = customerData.orders.find(order => order.menuId = id);
+            const order = menuData.orders.find(order => order.customer.id = customerData.id);
+            console.log(order);
 
             if (order) {
+                console.log("ordered")
                 setMenuIsOrdered(true);
                 setOrderData(order)
             } else {
@@ -92,7 +94,7 @@ function ShowMenu(props) {
 
         }
 
-    }, [customerData])
+    }, [menuData,customerData])
 
     useEffect(() => {
 
@@ -442,7 +444,7 @@ function ShowMenu(props) {
                                 id="comments"
                                 label="Comments:"
                                 placeholder=""
-                                reactHookForm={register("orderComments")}/>
+                                reactHookForm={register("comments")}/>
                         </div>
                     </div>
                     { errorPostOrder && <MenuRow title="Error"
@@ -523,7 +525,7 @@ function ShowMenu(props) {
                             </div>
                             {orderData && orderData.delivery && <MenuRow
                                 title="Warm-up instructions: "
-                                text={menuData.warmUpInstruction}/>}
+                                text={menuData && menuData.dessert && menuData.warmUpInstruction}/>}
                         </Tile>
                         <Tile className="showMenu--tile3 flex-collumn">
                             <div className="showMenu--tile3-cookwrapper flex-collumn">

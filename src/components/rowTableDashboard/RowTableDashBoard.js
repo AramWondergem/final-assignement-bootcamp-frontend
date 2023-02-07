@@ -30,7 +30,6 @@ function RowTableDashBoard({order, reactHookFormTime, reactHookFormPaid, checked
                 <td className="paidInputTD">
                     <input className="checkbox"
                            type="checkbox"
-                           value={value}
                            defaultChecked={checked}
                         {...reactHookFormPaid}/></td>
             </tr>
