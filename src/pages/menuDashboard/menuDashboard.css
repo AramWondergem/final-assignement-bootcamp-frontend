@@ -90,10 +90,6 @@ table p {
     text-align: center;
 }
 
-.nameAndPicture--wrapper{
-    align-items: center;
-    gap: 10px;
-}
 
 .name {
     width: 100px;
@@ -113,6 +109,8 @@ table p {
 
 .menuDashboard--table-profilePicture{
     width: 60px;
+    height: 60px;
+    padding: var(--padding-extra-smal) 0;
 }
 
 .numberOfMenuText{
@@ -132,7 +130,20 @@ table p {
     align-self: end;
 }
 
+.menuDashboard--table--timewindow {
+    white-space: nowrap;
+}
 
+.menuDashboard--table-profilePicture{
+    width: 60px;
+    height: 60px;
+    padding: var(--padding-extra-smal) 0;
+}
+
+.nameAndPicture--wrapper{
+    align-items: center;
+    gap: 10px;
+}
 
 
 

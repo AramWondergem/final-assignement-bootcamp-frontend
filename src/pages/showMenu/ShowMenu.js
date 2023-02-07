@@ -12,6 +12,7 @@ import {useForm} from "react-hook-form";
 import useFetch from "../../customHooks/useFetch";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import showDeliveryWindow from "../../helpers/showDeliveryWindow";
 
 
 function ShowMenu(props) {
@@ -127,24 +128,6 @@ function ShowMenu(props) {
 
     }, [menuIsOrdered]);
 
-    // function to show the delivery window in a nice format
-
-    function showDeliveryWindow(startDeliveryWindow, endDeliveryWindow) {
-
-        const startDate = new Date(startDeliveryWindow);
-        const endDate = new Date(endDeliveryWindow);
-
-        const startTime = new Intl.DateTimeFormat("nl", {
-            timeStyle: 'short'
-        }).format(startDate);
-
-        const endTime = new Intl.DateTimeFormat("nl", {
-            timeStyle: 'short'
-        }).format(endDate);
-
-        return startTime + " - " + endTime;
-
-    }
 
     // function to show the text for the header plantbased
     function showPlantBased(menuType) {
