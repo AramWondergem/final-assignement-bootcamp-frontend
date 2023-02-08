@@ -13,7 +13,6 @@ function ProfilePicture({large, className, src, dependency}) {
     const {user} = useContext(AuthContext)
 
 
-
     useEffect(() => {
 
         // Fetch data function declaration
@@ -33,19 +32,12 @@ function ProfilePicture({large, className, src, dependency}) {
                 })
 
 
-
-
-
                 setCatchError(null);
-
 
 
                 // console.log(btoa(response.data));
 
                 setImageData(URL.createObjectURL(response.data));
-
-
-
 
 
             } catch (err) {
@@ -57,13 +49,11 @@ function ProfilePicture({large, className, src, dependency}) {
                 setIsLoading(false);
             }
         }
+
         // Call the Fetch Data function
 
 
-            fetchData(src)
-
-
-
+        fetchData(src)
 
 
     }, [src]);

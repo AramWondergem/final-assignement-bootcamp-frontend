@@ -38,8 +38,11 @@ function ShowMenu(props) {
     const [orderDeadlinePassed, setOrderDeadlinePassed] = useState(null);
     const [isLoadingPostOrder, setIsLoadingPostOrder] = useState(false);
     const [errorPostOrder, setErrorPostOrder] = useState(null);
+    const [imageData, setImageData] = useState(null);
+    const [isloadingImageData, setIsLoadingImageData] = useState(null);
+    const [catchErrorImageData, setCatchErrorImageData] = useState(null);
 
-    useEffect(()=> console.log(orderData),[orderData]);
+    useEffect(() => console.log(orderData), [orderData]);
 
     //function to show or close overlay
     function toggleOverlay(event) {
@@ -345,6 +348,53 @@ function ShowMenu(props) {
 
     }
 
+    //fucntion to fetch the menu picture
+    useEffect(() => {
+
+        // Fetch data function declaration
+        async function fetchData(urlWeb) {
+            setIsLoadingImageData(true);
+            try {
+                console.log(urlWeb)
+                // Fetch the response
+                const response = await axios.get(urlWeb, {
+                    headers: {
+                        baseURL: "",
+                        "Content-Type": "application/json",
+                        Authorization: `${localStorage.getItem('token')}`
+
+                    },
+                    responseType: 'blob'
+                })
+
+
+                setCatchErrorImageData(null);
+
+
+                // console.log(btoa(response.data));
+
+                setImageData(URL.createObjectURL(response.data));
+
+
+            } catch (err) {
+                // Catch the error
+                setCatchErrorImageData(err.message);
+
+            } finally {
+                // Set loading to initial state
+                setIsLoadingImageData(false);
+            }
+        }
+
+        // Call the Fetch Data function
+
+        if (menuData) {
+            fetchData(menuData.menuPictureURL)
+        }
+
+
+    }, [menuData]);
+
 
     return (
         <>
@@ -478,7 +528,7 @@ function ShowMenu(props) {
                         <Tile className="showMenu--tile1 flex-collumn">
                             <div className="showMenu--imagewrapper">
                                 <img className="showMenu--imageMenu"
-                                     src={menuData && menuData.menuPictureURL ? menuData.menuPictureURL : tiger1}
+                                     src={imageData ? imageData : tiger1}
                                      alt="a key element out of the menu"/></div>
 
                         </Tile>
