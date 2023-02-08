@@ -8,7 +8,7 @@ import AuthContextProvider from "./context/AuthContext";
 
 //axios config defaults
 
-axios.defaults.baseURL = 'http://localhost:8080/v1';
+axios.defaults.baseURL = 'http://localhost:8080/api/v1';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
