@@ -182,6 +182,7 @@ function Profile(props) {
                                 <>
                                     <ProfilePicture
                                         className="imagewrapper-profilepicture"
+                                        src={userData.profilePicture}
                                         large={true}/>
                                 </>
                             }

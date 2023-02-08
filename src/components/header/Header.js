@@ -37,7 +37,8 @@ function Header(props) {
                         </ul>
                     </nav>
                     <div className="header--img-and-logout-wrapper flex-row">
-                        <ProfilePicture className="header--imagewrapper"/>
+                        <ProfilePicture className="header--imagewrapper"
+                        src={user.profilePicture}/>
                         <Button type="button"
                                 className="header--button"
                                 onClick={logout}
