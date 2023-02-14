@@ -1,0 +1,49 @@
+.tile {
+    border-radius: 20px;
+    background-color: var(--color-white);
+    border: var(--color-primary-light) solid 10px;
+    box-shadow: 10px 8px 0 var(--color-primary);
+    padding: var(--padding-large);
+
+
+    position: relative;
+
+    display: flex;
+}
+
+
+.shadow {
+
+    position: absolute;
+    width: 120px;
+    height: 29px;
+    bottom: 20px;
+    right: calc(50% - 60px);
+
+
+    background: #000000;
+    mix-blend-mode: normal;
+    opacity: 0.2;
+    filter: blur(13.5914px);
+}
+
+.tile-picture {
+    justify-content: center;
+    align-items: center;
+
+}
+
+.tile-text {
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+.tile-text p {
+    margin-bottom: var(--padding-small);
+}
+
+.tile-yellow {
+    border-color: var(--color-secondary);
+}
+

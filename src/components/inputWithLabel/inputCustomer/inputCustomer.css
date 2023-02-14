@@ -1,0 +1,47 @@
+.inputCustomer {
+
+    align-items: center;
+    border: var(--color-primary-light) solid 4px;
+    padding: var(--padding-small);
+    border-radius: 20px;
+    gap: var(--padding-medium);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.checkbox {
+    appearance: none;
+    flex: 0 0 20px;
+    height: 20px;
+
+    border-radius: 2px;
+    border: 4px solid black;
+    box-shadow: 6px 4px 0 var(--color-dark);
+}
+
+.checkbox:hover {
+    background-color: var(--color-secondary);
+
+}
+
+.checkbox:checked {
+    background-color: var(--color-primary);
+}
+
+
+.inputCustomer .inputCustomerPicture {
+    flex: 0 0 60px;
+    height: 60px;
+}
+
+.inputCustomer p {
+    margin: 0 !important;
+    font-weight: var(--font-weight-600);
+    text-shadow: 1px 1px var(--color-primary);
+    white-space: nowrap;
+}
+
+.inputCustomer--textwrapper {
+    align-items: center;
+    gap: var(--padding-small);
+}

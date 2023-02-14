@@ -1,0 +1,9 @@
+.largeMenuButtonCustomer-cookwrapper {
+    align-items: center;
+    gap: var(--padding-small)
+}
+
+.largeMenuButtonCustomer-profilePicture {
+    flex: 0 0 150px;
+    width: 150px;
+}

@@ -1,0 +1,21 @@
+.menuButton {
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menuButton:hover, .menuButton:active {
+    border-color: var(--color-secondary);
+    transform: translateX(2px) translateY(2px);
+    box-shadow: 10px 8px 0 var(--color-primary);
+
+}
+
+.menuButton:active {
+
+    box-shadow: 0 0 0 0;
+    top: 10px;
+    left: 12px;
+
+}
