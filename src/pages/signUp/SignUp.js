@@ -19,6 +19,8 @@ function SignUp() {
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
 
+    //function for the confetti
+
     const jsConfetti = new JSConfetti()
 
     function onClickConfetti() {
@@ -30,16 +32,17 @@ function SignUp() {
         });
     }
 
+
     async function onSubmitToLogin(event) {
         event.preventDefault();
 
-        if(passwordCheck !== password) {
+        if (passwordCheck !== password) {
             setCatchError("passwords not matching")
 
 
-        } else if(!username) {
+        } else if (!username) {
             setCatchError("fill in username")
-        }else {
+        } else {
             setIsLoading(true);
             setCatchError(null);
 
@@ -66,6 +69,7 @@ function SignUp() {
         }
     }
 
+    //useEffect to print all different error messages
     useEffect(() => {
 
         setErrorMessage(null)
@@ -100,7 +104,7 @@ function SignUp() {
                 setErrorMessage("The elves dectected that your passwords do not match, try again")
             } else if (catchError === "fill in username") {
                 setErrorMessage("The elves think it is weird that you do not have a name, fill in your name")
-            } else  {
+            } else {
                 setErrorMessage("Oeps somehting is wrong. This happens for the first time. Contact the elves.");
             }
         }

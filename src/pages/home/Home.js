@@ -13,25 +13,35 @@ function Home(props) {
     const [errorCustomerData, setErrorCustomerData] = useState(null);
 
     // fetch data customer
-    useFetch(`/users`,setCustomerData,setErrorCustomerData,setIsLoadingCustomerData,[]);
+    useFetch(`/users`, setCustomerData, setErrorCustomerData, setIsLoadingCustomerData, []);
 
     //function to show the menus
-    function showMenus(menuArray,cookOrCustomer) {
+    function showMenus(menuArray, cookOrCustomer) {
 
-        menuArray.sort((a,b) => sortingOnDate(a.startDeliveryWindow,b.startDeliveryWindow));
+        menuArray.sort((a, b) => sortingOnDate(a.startDeliveryWindow, b.startDeliveryWindow));
 
-        return menuArray.map((menu)=> {
+        let url = '';
+
+        if (cookOrCustomer === 'cook') {
+            url = `/menu/dashboard/`
+        } else if (cookOrCustomer === 'customer') {
+            url = '/menu/'
+        } else {
+            console.log("There is something wrong with the url that is given to a LargeMenuButton. it could be that you did not fill in the argument cookOrCustomer correctly. It should be cook or customer")
+        }
+
+        return menuArray.map((menu) => {
             return <LargeMenuButton
                 key={`${cookOrCustomer + menu.id}`}
                 menuData={menu}
-                url={`/menu/${menu.id}`}/>
+                url={`${url}${menu.id}`}
+                pictureCook={menu.cook.profilePicture}/>
         })
     }
 
-    useEffect(()=> console.log(customerData),[customerData]);
 
     // sorting function
-    function sortingOnDate(a,b) {
+    function sortingOnDate(a, b) {
         const dateA = Date(a);
         const dateB = Date(b);
         return dateA > dateB
@@ -42,7 +52,7 @@ function Home(props) {
             <Header/>
             <main className="home outerbox">
                 <div className="home--innerbox innerbox flex-wrap-row">
-                    {(customerData && customerData.menusAsCustomers.length>0)?
+                    {(customerData && customerData.menusAsCustomers.length > 0) ?
                         <div className="home--contentwrapper flex-collumn">
                             <h2>Menus as customer</h2>
                             <div className="home--menubuttonwrapper flex-wrap-row">
@@ -52,7 +62,9 @@ function Home(props) {
                             </div>
                         </div>
                         :
-                        <>{!user.roles.includes("COOK")&& <h1>Poor you, you have to look for a cook who wants to be friends. Good luck with that!</h1>}</>
+                        <>{!user.roles.includes("COOK") &&
+                            <h1>Poor you, you have to look for a cook who wants to be friends. Good luck with
+                                that!</h1>}</>
 
                     }
                     {user.roles.includes("COOK") &&
@@ -71,11 +83,11 @@ function Home(props) {
                                                 <h1>Create your first menu</h1>
                                             </LargeMenuButton>
                                         }</>
-                                :
+                                    :
                                     <h2>loading</h2>}
                             </div>
                         </div>
-                        }
+                    }
                 </div>
 
             </main>

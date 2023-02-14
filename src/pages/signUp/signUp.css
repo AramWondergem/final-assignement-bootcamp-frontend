@@ -1,4 +1,4 @@
-.signup{
+.signup {
     background: var(--background-body);
 }
 
@@ -7,13 +7,14 @@
     align-items: center;
 }
 
-.signup--contentwrapper{
+.signup--contentwrapper {
     flex: 0 0 90vh;
     margin: var(--padding-large) 0;
     justify-content: space-around;
     align-items: stretch;
 
 }
+
 .signup .bubble {
 
     flex: 0 0 86px;
@@ -47,6 +48,7 @@
 
 
 }
+
 .signup--logowrapper {
     display: flex;
     flex-direction: column;
@@ -69,7 +71,7 @@
 
 }
 
-.signup--form Button{
+.signup--form Button {
 
     align-self: center;
 }
@@ -77,9 +79,6 @@
 .confetti-button {
     align-self: end;
 }
-
-
-
 
 
 /*----------loading animation-----------------*/
@@ -103,8 +102,8 @@
     80% {
         transform: translateX(-140px) translateY(70px);
     }
-    90%{
-        transform: translateX(-140px) ;
+    90% {
+        transform: translateX(-140px);
     }
     100% {
 

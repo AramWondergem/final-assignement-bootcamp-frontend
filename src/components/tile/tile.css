@@ -6,15 +6,13 @@
     padding: var(--padding-large);
 
 
-
     position: relative;
 
     display: flex;
 }
 
 
-
-.shadow{
+.shadow {
 
     position: absolute;
     width: 120px;

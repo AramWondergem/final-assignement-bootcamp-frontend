@@ -5,8 +5,8 @@ function EmptyInputField({children, classname, paddingBox}) {
     return (
 
         <div className={`emptyInputField-scrollbarhider`}>
-        <div className={`emptyInputField-${paddingBox ? "box" : "classic"} ${classname} emptyInputField`}>
-            {children}
+            <div className={`emptyInputField-${paddingBox ? "box" : "classic"} ${classname} emptyInputField`}>
+                {children}
             </div>
         </div>
     );

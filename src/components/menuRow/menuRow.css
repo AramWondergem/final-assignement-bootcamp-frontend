@@ -1,4 +1,4 @@
-.menuRow{
+.menuRow {
     align-items: baseline;
     gap: var(--padding-small);
 }

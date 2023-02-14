@@ -2,23 +2,24 @@
     padding: var(--padding-XXXL) 0;
     background-color: var(--background-body);
 }
+
 .menuDashboard--innerbox {
     gap: 50px;
 }
 
 .menuDashboard--titleTile {
-    max-width: calc(var(--basic-screen-width)/2);
+    max-width: calc(var(--basic-screen-width) / 2);
     align-self: center;
     justify-content: center;
     align-items: baseline;
     text-align: center;
 }
 
-.menuDashboard--title-span{
+.menuDashboard--title-span {
     font-weight: var(--font-weight-500);
 }
 
-.menuDashboard--acceptedcounter-span{
+.menuDashboard--acceptedcounter-span {
     background-color: var(--color-primary-light);
     border-radius: 5px;
     padding: 4px;
@@ -31,7 +32,7 @@
     justify-content: space-evenly;
 }
 
-.menuDashboard--saveOrders{
+.menuDashboard--saveOrders {
     align-self: end;
 }
 
@@ -53,17 +54,19 @@
 .menuDashboard--orderstile-component .inputCustomer {
     flex: 0 0 85px;
 }
+
 .menuDashboard--orderstile-buttonwrapper {
     align-self: end;
 }
 
-.menuDashboard--rightcontent{
-    flex: 0 0 calc((var(--basic-screen-width)/3)*2 - 20)px
+.menuDashboard--rightcontent {
+    flex: 0 0 calc((var(--basic-screen-width) / 3) * 2 - 20) px
 }
 
-.menuDashboard--righttile{
+.menuDashboard--righttile {
     gap: var(--padding-medium);
 }
+
 .menuDashboard--table {
     overflow: auto;
     font-family: var(--font-body);
@@ -76,7 +79,7 @@ td {
     vertical-align: middle;
 }
 
-.trheader{
+.trheader {
     outline: none !important;
 }
 
@@ -90,10 +93,6 @@ table p {
     text-align: center;
 }
 
-.nameAndPicture--wrapper{
-    align-items: center;
-    gap: 10px;
-}
 
 .name {
     width: 100px;
@@ -111,11 +110,13 @@ table p {
     width: 100px;
 }
 
-.menuDashboard--table-profilePicture{
+.menuDashboard--table-profilePicture {
     width: 60px;
+    height: 60px;
+    padding: var(--padding-extra-smal) 0;
 }
 
-.numberOfMenuText{
+.numberOfMenuText {
     font-size: var(--fontsize-500);
 }
 
@@ -123,7 +124,7 @@ table p {
     width: 20px;
 }
 
-.etaInputTD, .paidInputTD  {
+.etaInputTD, .paidInputTD {
     text-align: center;
 
 }
@@ -132,7 +133,20 @@ table p {
     align-self: end;
 }
 
+.menuDashboard--table--timewindow {
+    white-space: nowrap;
+}
 
+.menuDashboard--table-profilePicture {
+    width: 60px;
+    height: 60px;
+    padding: var(--padding-extra-smal) 0;
+}
+
+.nameAndPicture--wrapper {
+    align-items: center;
+    gap: 10px;
+}
 
 
 

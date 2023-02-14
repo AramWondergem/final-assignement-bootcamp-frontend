@@ -9,11 +9,11 @@ function Logo({className, children, size}) {
 
         <div className={`${className} flex-row logo-${size} logo`}>
             <div className="logo-imagewrapper">
-            <img src={cookwoman} alt="emoticon of a female cook"/>
+                <img src={cookwoman} alt="emoticon of a female cook"/>
             </div>
             {children}
             <div className="logo-imagewrapper">
-            <img src={cookmen} alt="emoticon of a male cook"/>
+                <img src={cookmen} alt="emoticon of a male cook"/>
             </div>
 
         </div>

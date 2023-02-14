@@ -1,4 +1,4 @@
-.profile{
+.profile {
     padding: var(--padding-XXXL) 0;
     background-color: var(--background-body);
 
@@ -8,25 +8,25 @@
     gap: var(--padding-XXXL);
 }
 
-.profile--tilewrapper{
+.profile--tilewrapper {
 
     justify-content: space-evenly;
-    gap:75px;
+    gap: 75px;
 
 }
 
-.profile--tilewrapper .tile{
+.profile--tilewrapper .tile {
     flex: 1 0 350px;
 
 }
 
-.profile .imagewrapper-profilepicture{
+.profile .imagewrapper-profilepicture {
     flex: 0 0 200px;
     height: 200px;
 }
 
 
-.profile--button-errormessage-wrapper{
+.profile--button-errormessage-wrapper {
     align-self: flex-end;
 }
 

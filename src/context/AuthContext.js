@@ -44,12 +44,15 @@ function AuthContextProvider({children}) {
     }
 
 
-    async function fetchUserData( token, redirect) {
+    async function fetchUserData(token, redirect) {
         try {
             // Fetch the response
-            const response = await axios.get('/users',{ headers: {
-                "Content-Type": "application/json",
-                    Authorization: `${token}`,}})
+            const response = await axios.get('/users', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `${token}`,
+                }
+            })
 
             console.log(response)
 
@@ -66,7 +69,7 @@ function AuthContextProvider({children}) {
             });
 
             if (redirect) {
-            navigate(redirect);
+                navigate(redirect);
             }
 
         } catch (error) {

@@ -5,9 +5,9 @@
 */
 *, *::before, *::after {
     box-sizing: border-box;
-    /*border: 1px solid black;*/
-/*    todo weghalen*/
+
 }
+
 /*
   2. Remove default margin
 */
@@ -17,12 +17,14 @@
     font: inherit;
 
 }
+
 /*
   3. Allow percentage-based heights in the application
 */
 html, body {
     height: 100%;
 }
+
 /*
   Typographic tweaks!
   4. Add accessible line-height
@@ -33,6 +35,7 @@ body {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeSpeed;
 }
+
 /*
   6. Improve media defaults
 */
@@ -42,6 +45,7 @@ img, picture, video, canvas, svg {
     max-height: 100%;
 
 }
+
 /*
 
 /*
@@ -93,6 +97,7 @@ filling page with main component if the content does not fill the whole page
     flex-direction: column;
     min-height: 100vh;
 }
+
 main {
     flex-grow: 1;
 }

@@ -39,14 +39,14 @@ function CreateMenu(props) {
     const watchDeliveryData = watch("deliveryDate");
     const watchStartDeliveryWindow = watch("startDeliveryWindow");
     const watchEndDeliveryWindow = watch("endDeliveryWindow");
-    const [fillInDeliveryDataAndWindow, setFillInDeliveryDataAndWindow ] = useState(false);
-    const [sendMenu ,toggleSendMenu] = useState(false)
+    const [fillInDeliveryDataAndWindow, setFillInDeliveryDataAndWindow] = useState(false);
+    const [sendMenu, toggleSendMenu] = useState(false)
 
     useFetch("/users", setCookData, setIsloadingCookData, setError, [customerAdded]);//to fetch the data of the cook
 
 
+    // fetching the menu data triggered when menu is saved
     useEffect(() => {
-// Define request cancellation signal
         const controller = new AbortController();
         const {signal} = controller;
 
@@ -96,6 +96,8 @@ function CreateMenu(props) {
 
     }, [id, menuIsSaved]);
 
+    //setting the default values of the form. This is the information in the menudata.
+
     function setDefaultValues() {
 
         Object.keys(menuData).map((key) => {
@@ -109,17 +111,17 @@ function CreateMenu(props) {
                     setValue('customersId', customersIdsArray)
                     break;
                 case 'startDeliveryWindow':
-                    if(menuData.startDeliveryWindow) {
+                    if (menuData.startDeliveryWindow) {
                         const dateAndTimeArrayStart = menuData.startDeliveryWindow.split('T');
                         setValue('deliveryDate', dateAndTimeArrayStart[0]);
                         setValue('startDeliveryWindow', dateAndTimeArrayStart[1]);
                     }
                     break;
                 case 'endDeliveryWindow':
-                    if(menuData.endDeliveryWindow) {
-                    const dateAndTimeArrayEnd = menuData.endDeliveryWindow.split('T');
-                    setValue('endDeliveryWindow', dateAndTimeArrayEnd[1]);
-                }
+                    if (menuData.endDeliveryWindow) {
+                        const dateAndTimeArrayEnd = menuData.endDeliveryWindow.split('T');
+                        setValue('endDeliveryWindow', dateAndTimeArrayEnd[1]);
+                    }
                     break;
                 default:
                     setValue(key, menuData[key])
@@ -235,8 +237,8 @@ function CreateMenu(props) {
                 menuType: data.menuType,
                 warmUpInstruction: data.warmUpInstruction,
                 orderDeadline: data.orderDeadline,
-                startDeliveryWindow: data.deliveryDate ?`${data.deliveryDate}T${data.startDeliveryWindow}` : null,
-                endDeliveryWindow: data.deliveryDate ?`${data.deliveryDate}T${data.endDeliveryWindow}`: null,
+                startDeliveryWindow: data.deliveryDate ? `${data.deliveryDate}T${data.startDeliveryWindow}` : null,
+                endDeliveryWindow: data.deliveryDate ? `${data.deliveryDate}T${data.endDeliveryWindow}` : null,
                 numberOfMenus: data.numberOfMenus,
                 priceMenu: data.priceMenu,
                 tikkieLink: data.tikkieLink,
@@ -245,44 +247,44 @@ function CreateMenu(props) {
             try {
                 let menuIdForNavigation;
                 if (id === 'new') {
-                        console.log("saving the new menu");
+                    console.log("saving the new menu");
 
-                        const responsePostMenuData = await axios.post("/menus", dataForJSONFile, {
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `${localStorage.getItem('token')}`
-                            }
-                        })
-                            .catch(e => e.code === "ERR_CANCELED" && console.log("Fetch Request Cancelled"));
+                    const responsePostMenuData = await axios.post("/menus", dataForJSONFile, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${localStorage.getItem('token')}`
+                        }
+                    })
+                        .catch(e => e.code === "ERR_CANCELED" && console.log("Fetch Request Cancelled"));
 
-                        console.log(responsePostMenuData);
+                    console.log(responsePostMenuData);
 
-                        toggleMenuIsSaved(!menuIsSaved)
+                    toggleMenuIsSaved(!menuIsSaved)
 
-                        menuIdForNavigation = responsePostMenuData.headers.get("Menu-id");
+                    menuIdForNavigation = responsePostMenuData.headers.get("Menu-id");
 
 
                 } else {
 
-                        console.log('updated existing menu')
+                    console.log('updated existing menu')
 
-                        const responsePutMenuData = await axios.put(`/menus/${id}`, dataForJSONFile, {
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `${localStorage.getItem('token')}`
-                            }
-                        })
-                            .catch(e => e.code === "ERR_CANCELED" && console.log("Fetch Request Cancelled"));
+                    const responsePutMenuData = await axios.put(`/menus/${id}`, dataForJSONFile, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `${localStorage.getItem('token')}`
+                        }
+                    })
+                        .catch(e => e.code === "ERR_CANCELED" && console.log("Fetch Request Cancelled"));
 
-                        console.log(responsePutMenuData);
-                        menuIdForNavigation = id;
-                        toggleMenuIsSaved(!menuIsSaved)
+                    console.log(responsePutMenuData);
+                    menuIdForNavigation = id;
+                    toggleMenuIsSaved(!menuIsSaved)
 
 
                 }
                 toggleSaveMenu(false);
 
-                if(sendMenu) {
+                if (sendMenu) {
                     console.log('sending menu')
 
                     const responsePutMenuDataSend = await axios.put(`/menus/send/${menuIdForNavigation}`, {}, {
@@ -298,8 +300,8 @@ function CreateMenu(props) {
                     toggleSendMenu(false);
                 }
 
-                navigate(`/menu/${menuIdForNavigation}`);
-            } catch (error){
+                navigate(`/menu/dashboard/${menuIdForNavigation}`);
+            } catch (error) {
                 console.log(error)
                 setErrorSaveMenu(error)
                 toggleSendMenu(false);
@@ -311,9 +313,11 @@ function CreateMenu(props) {
 
     }
 
+    // This useEffect is used to make the delivery date and window required if one of them is filled.
+
     useEffect(() => {
 
-        if(watchDeliveryData || watchStartDeliveryWindow || watchEndDeliveryWindow) {
+        if (watchDeliveryData || watchStartDeliveryWindow || watchEndDeliveryWindow) {
             setFillInDeliveryDataAndWindow(true);
         } else {
             setFillInDeliveryDataAndWindow(false);
@@ -470,11 +474,12 @@ function CreateMenu(props) {
                                     placeholder=""
                                     error={errors.deliveryDate}
                                     errorMessage={errors.deliveryDate ? errors.deliveryDate.message : ''}
-                                    reactHookForm={register("deliveryDate",{
-                                        required:{
+                                    reactHookForm={register("deliveryDate", {
+                                        required: {
                                             value: fillInDeliveryDataAndWindow && !showOverlay,
                                             message: 'If you fill in this field, then also fill in delivery window?'
-                                        }})}/>
+                                        }
+                                    })}/>
 
                                 <div className="createMenu--deliverywindowwrapper flex-row">
                                     <div className="createMenu--timeinputwrapper flex-collumn">
@@ -485,11 +490,12 @@ function CreateMenu(props) {
                                             placeholder=""
                                             error={errors.startDeliveryWindow}
                                             errorMessage={errors.startDeliveryWindow ? errors.startDeliveryWindow.message : ''}
-                                            reactHookForm={register("startDeliveryWindow",{
-                                                required:{
+                                            reactHookForm={register("startDeliveryWindow", {
+                                                required: {
                                                     value: fillInDeliveryDataAndWindow && !showOverlay,
                                                     message: 'If you fill in this field, then also fill in delivery date and/or the delivery window completely?'
-                                                }})}/>
+                                                }
+                                            })}/>
                                     </div>
                                     <div className="createMenu--timeinputwrapper flex-collumn">
                                         <InputWithLabelHookForm
@@ -499,11 +505,12 @@ function CreateMenu(props) {
                                             placeholder=""
                                             error={errors.endDeliveryWindow}
                                             errorMessage={errors.endDeliveryWindow ? errors.endDeliveryWindow.message : ''}
-                                            reactHookForm={register("endDeliveryWindow",{
-                                                required:{
+                                            reactHookForm={register("endDeliveryWindow", {
+                                                required: {
                                                     value: fillInDeliveryDataAndWindow && !showOverlay,
                                                     message: 'If you fill in this field, then also fill in delivery date and/or the delivery window completely?'
-                                                }})}/>
+                                                }
+                                            })}/>
                                     </div>
                                 </div>
                                 <InputWithLabelHookForm

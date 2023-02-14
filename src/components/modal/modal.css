@@ -1,21 +1,21 @@
-.modal-overlay{
+.modal-overlay {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(90deg, rgba(215,65,167,0.9) 0%, rgba(255,214,10,0.9) 100%);;
+    background: linear-gradient(90deg, rgba(215, 65, 167, 0.9) 0%, rgba(255, 214, 10, 0.9) 100%);;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-/* The z-index is a bit arbitrary. If the modal does not appear on top, increase the z-index */
+    /* The z-index is a bit arbitrary. If the modal does not appear on top, increase the z-index */
 
 }
 
-.modal-content{
-max-width: var(--basic-screen-width);
-max-height: 100vh;
+.modal-content {
+    max-width: var(--basic-screen-width);
+    max-height: 100vh;
     margin: 0 var(--margin-innerbox);
-    margin-right: calc(2*var(--margin-innerbox));
+    margin-right: calc(2 * var(--margin-innerbox));
     display: flex;
     justify-content: center;
     align-items: center;
