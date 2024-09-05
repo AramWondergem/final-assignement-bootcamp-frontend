@@ -1,4 +1,4 @@
-# frontend Wondergems
+# Frontend Wondergems
 
 **Version:** 1.0  
 **Author:** Aram Wondergem  
