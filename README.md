@@ -5,10 +5,18 @@
 
 ## Table of Contents
 
-1. [Requirements](#requirements)
-2. [Installation Steps](#installation-steps)
-3. [Usage](#usage)
-4. [Roles and Test Accounts](#roles-and-test-accounts)
+1. [Introduction](#introduction)
+2. [Requirements](#requirements)
+3. [Installation Steps](#installation-steps)
+4. [Usage](#usage)
+5. [Roles and Test Accounts](#roles-and-test-accounts)
+
+## Introduction
+
+This document provides the installation guide for the frontend of the Wonder Gems application. Wonder Gems is a web application that allows a hobby chef to send a menu to friends and family, and manage all aspects of menu orders and delivery.
+
+In this guide, you'll find the required software and steps to set up the Wonder Gems frontend. Additionally, it explains how to use the frontend, including login credentials for various test accounts.
+
 
 ## Requirements
 
